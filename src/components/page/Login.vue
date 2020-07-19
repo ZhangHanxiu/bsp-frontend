@@ -9,60 +9,87 @@
             </canvas>
         </div>
         <div id="loginBox">
-            <h4 style="text-align: center;margin-bottom: 30px;margin-top: -10px;font-size: 26px;color: #07c4a8">学生信息管理系统</h4>
+            <h4 style="text-align: center;margin-bottom: 20px;margin-top: -10px;font-size: 26px;color: #ffffff">Cross-border E-commerce</h4>
             <el-form ref="form":model="loginForm" :rules="loginRules" class="form">
-                <el-form-item prop="username">
-                    <div style="display: inline-flex;margin-left: 20px">
-                    <div style="font-size: 15px">用户名</div>
-                    <el-input
-                            class="log-input"
-                            style="width: 320px;margin-left: 40px"
-                            v-model="loginForm.username"
-                            placeholder="用户名"
-                            prefix-icon="icon-login_user">
-                    </el-input>
+                <el-row>
+                    <div style="display: inline-flex;margin-left: 5%;height: 30pt">
+                        <el-form-item prop="username">
+                        </el-form-item>
+                        <el-col :span="6">
+                            <div style="font-size: 15px">Username</div>
+                        </el-col>
+                        <el-col :span="18">
+                            <el-input
+                                    class="log-input"
+                                    style="width: 300px"
+                                    v-model="loginForm.username"
+                                    placeholder="Please enter your username"
+                                    prefix-icon="icon-login_user">
+                            </el-input>
+                        </el-col>
                     </div>
-                </el-form-item>
-                <el-form-item prop="password">
-                    <div style="display: inline-flex;margin-left: 20px">
-                        <div style="font-size: 15px">密码</div>
-                        <el-input
-                                class="log-input"
-                                style="width: 320px;margin-left: 55px"
-                                v-model="loginForm.password"
-                                placeholder="用户名"
-                                prefix-icon="icon-login_user">
-                        </el-input>
+                </el-row>
+                <el-row>
+                    <div style="display: inline-flex;margin-left: 5%;height: 30pt">
+                        <el-form-item prop="password">
+                        </el-form-item>
+                        <el-col :span="6">
+                            <div style="font-size: 15px">Password</div>
+                        </el-col>
+                        <el-col :span="18">
+                            <el-input
+                                    :key="passwordType"
+                                    class="log-input"
+                                    :type="passwordType"
+                                    style="width: 300px"
+                                    v-model="loginForm.password"
+                                    placeholder="Please enter your password"
+                                    prefix-icon="icon-login_user"/>
+                            <span class="show-pwd" @click="showPwd">
+                                    <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+                             </span>
+                        </el-col>
                     </div>
-                </el-form-item>
-                <el-form-item
-                        prop="seccode"
-                        class="inputbar"
-                >
-                    <div style="display: inline-flex;margin-left: 20px">
-                        <div style="font-size: 15px;">验证码</div>
-                    <el-input
-                            class="log-input"
-                            style="width: 120px;margin-left: 40px"
-                            v-model="loginForm.seccode"
-                            placeholder="验证码"
-                            prefix-icon="icon-login_auth"
-                    >
-                    </el-input>
-<!--                    <span style="margin-left: 20px;height:90px;width:50px;background: #00d1b2" class="" @click="createCode">{{ checkCode}}</span>-->
-                    <el-button type="primary" style="margin-left: 30px" @click="createCode">{{checkCode}}</el-button>
+                </el-row>
+                <el-row>
+                    <div style="display: inline-flex;margin-left: 5%">
+                        <el-form-item
+                                prop="seccode"
+                                class="inputbar"
+                        >
+                            <div style="display: inline-flex;margin-right: 0%">
+                                <el-col :span="8">
+                                    <div style="font-size: 15px">Identify code</div>
+                                </el-col>
+                                <el-col :span="8">
+                                    <el-input
+                                            class="log-input"
+                                            style="width: 120px;margin-left: 0%"
+                                            v-model="loginForm.seccode"
+                                            placeholder=""
+                                            prefix-icon="icon-login_auth"
+                                    >
+                                    </el-input>
+                                </el-col>
+                                <el-col :span="8">
+                                    <!--                    <span style="margin-left: 20px;height:90px;width:50px;background: #00d1b2" class="" @click="createCode">{{ checkCode}}</span>-->
+                                    <el-button type="primary" style="width: 100px;margin-left: 30pt" @click="createCode">{{checkCode}}</el-button>
+                                </el-col>
+                            </div>
+                        </el-form-item>
                     </div>
-                </el-form-item>
-                <el-form-item>
+                </el-row>
+
+                <el-form-item  style="text-align: center">
                     <el-button
-                            type="success"
+                            type="primary"
                             class="btn"
-                            style="width: 100%"
+                            style="width: 50%;text-align: center"
                             @click="submitForm"
-                    >登录</el-button>
+                    >Login</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <p @click="registerAccount">没有账号?点我注册</p>
+                    <p @click="registerAccount">Click here to register an account!</p>
                 </el-form-item>
             </el-form>
         </div>
@@ -74,6 +101,7 @@
     export default {
         data() {
             return {
+                passwordType: 'password',
                 canvas: null,
                 context: null,
                 stars: [], //星星数组
@@ -129,18 +157,28 @@
                 },
                 checkCode:'',
                 loginRules: {
-                    username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-                    password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-                    seccode: [{ required: true, message: "请输验证码", trigger: "blur" }]
+                    username: [{ required: true, message: "Please enter your username", trigger: "blur" }],
+                    password: [{ required: true, message: "Please enter your password", trigger: "blur" }],
+                    seccode: [{ required: true, message: "Please enter the identify code", trigger: "blur" }]
                 },
             };
         },
         methods: {
+            showPwd() {
+                if (this.passwordType === 'password') {
+                    this.passwordType = ''
+                } else {
+                    this.passwordType = 'password'
+                }
+                this.$nextTick(() => {
+                    this.$refs.password.focus()
+                })
+            },
             //提交登录
             submitForm() {
                 if(this.loginForm.seccode !== this.checkCode) {
                     this.$message({
-                        message: "验证码错误，注意大写字母",
+                        message: "Identify code incorrect",
                         type: "error"
                     });
                     this.createCode();
@@ -148,14 +186,14 @@
                 };
                 Login(this.loginForm).then(res =>{
                     if (res.code === 200){
-                        this.$message.success('登录成功');
+                        this.$message.success('Login success!');
                         console.log(res.user_id);
                         localStorage.setItem("userId",res.user_id);
                         this.$store.commit('setItems',res.menu);
                         localStorage.setItem('ms_username', this.loginForm.username);
                         this.$router.push('/');
                     }else {
-                        this.$message.error('登陆失败,用户名或密码错误');
+                        this.$message.error('Login fail');
                         this.createCode();
                         this.loginForm.seccode = '';
                         this.$router.push('/login');
@@ -283,6 +321,15 @@
             background-position: -100% 0
         }
     }
+    .show-pwd {
+        position: absolute;
+        right: 10px;
+        top: 7px;
+        font-size: 16px;
+        color: #97a8be;
+        cursor: pointer;
+        user-select: none;
+    }
 
     p {
 
@@ -295,7 +342,7 @@
         color: #fff;
         font-weight: 800;
         font-size: 20px;
-        background-image: -webkit-linear-gradient(left, #cddc39, #ff9800 25%, #cddc39 50%, #ff9800 75%, #cddc39);
+        background-image: -webkit-linear-gradient(left, #cddc39, #6cb1a1 25%, #cddc39 50%, #ff9800 75%, #cddc39);
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
         -webkit-background-size: 200% 100%;
