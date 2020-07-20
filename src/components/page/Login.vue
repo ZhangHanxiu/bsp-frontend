@@ -192,6 +192,7 @@
                     if (res.code === 200){
                         this.$message.success('Login success!');
                         console.log(res.user_id);
+                        localStorage.setItem("token",res.token);
                         localStorage.setItem("userId",res.user_id);
                         this.$store.commit('setItems',res.menu);
                         localStorage.setItem('ms_username', this.loginForm.username);
