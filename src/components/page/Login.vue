@@ -45,9 +45,6 @@
                                     v-model="loginForm.password"
                                     placeholder="Please enter your password"
                                     prefix-icon="icon-login_user"/>
-                            <span class="show-pwd" @click="showPwd">
-                                    <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-                             </span>
                         </el-col>
                     </div>
                 </el-row>
@@ -91,7 +88,7 @@
                 </el-form-item>
                 </el-row>
                 <el-row>
-                <el-form-item>
+                <el-form-item style="height: 20%">
                     <p @click="registerAccount">Click here to register an account!</p>
                 </el-form-item>
                 </el-row>
@@ -191,7 +188,7 @@
                 Login(this.loginForm).then(res =>{
                     if (res.code === 200){
                         this.$message.success('Login success!');
-                        console.log(res.user_id);
+                        //console.log(res.user_id);
                         localStorage.setItem("token",res.token);
                         localStorage.setItem("userId",res.user_id);
                         this.$store.commit('setItems',res.menu);
@@ -199,6 +196,7 @@
                         localStorage.setItem("role_id",res.data.role_id);
                         localStorage.setItem('ms_username', this.loginForm.username);
                         sessionStorage.setItem('Authorization',res.token);
+                        console.log("token: "+res.token);
                         //console.log(sessionStorage.getItem('Autorization'));
                         this.$router.push('/');
                     }else {
