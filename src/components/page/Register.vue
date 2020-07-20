@@ -190,6 +190,8 @@ export default {
     height: 100%;
     background-image: url(../../assets/img/register.jpg);
     background-size: 100%;
+    overflow-y:scroll;
+
 }
 .ms-title {
     width: 100%;
@@ -205,10 +207,11 @@ export default {
     left: 43%;
     top: 50%;
     width: 550px;
-    height:100%;
-    margin: -20% 0 0 -175px;
+    height:120%;
+    margin: -22% 0 0 -175px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.3);
+
 }
 .ms-login2 {
     position: absolute;

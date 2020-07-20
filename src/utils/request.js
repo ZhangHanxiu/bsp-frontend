@@ -7,6 +7,7 @@ const service = axios.create({
     // baseURL: 'http://47.103.39.109:15465/api',
     // baseURL:'http://192.168.11.234:15465/api',
     baseURL:'http://localhost:8181',
+    //baseURL:'http://120.26.176.118:8181',
     timeout: 5000
 });
 

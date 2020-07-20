@@ -9,7 +9,7 @@
             </canvas>
         </div>
         <div id="loginBox">
-            <h4 style="text-align: center;margin-bottom: 20px;margin-top: -10px;font-size: 26px;color: #ffffff">Cross-border E-commerce</h4>
+            <h4 style="text-align: center;margin-bottom: 20px;margin-top: -10px;font-size: 26px;color: #ffffff">E-commerce Borrow-Sell Platform</h4>
             <el-form ref="form":model="loginForm" :rules="loginRules" class="form">
                 <el-row>
                     <div style="display: inline-flex;margin-left: 5%;height: 30pt">
@@ -80,6 +80,7 @@
                     </div>
                 </el-row>
 
+                <el-row>
                 <el-form-item  style="text-align: center">
                     <el-button
                             type="primary"
@@ -88,9 +89,12 @@
                             @click="submitForm"
                     >Login</el-button>
                 </el-form-item>
+                </el-row>
+                <el-row>
                 <el-form-item>
                     <p @click="registerAccount">Click here to register an account!</p>
                 </el-form-item>
+                </el-row>
             </el-form>
         </div>
     </div>
@@ -191,6 +195,8 @@
                         localStorage.setItem("userId",res.user_id);
                         this.$store.commit('setItems',res.menu);
                         localStorage.setItem('ms_username', this.loginForm.username);
+                        sessionStorage.setItem('Authorization',res.token);
+                        //console.log(sessionStorage.getItem('Autorization'));
                         this.$router.push('/');
                     }else {
                         this.$message.error('Login fail');
