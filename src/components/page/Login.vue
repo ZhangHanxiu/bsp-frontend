@@ -195,6 +195,8 @@
                         localStorage.setItem("token",res.token);
                         localStorage.setItem("userId",res.user_id);
                         this.$store.commit('setItems',res.menu);
+                        localStorage.setItem("show_name",res.data.name);
+                        localStorage.setItem("role_id",res.data.role_id);
                         localStorage.setItem('ms_username', this.loginForm.username);
                         sessionStorage.setItem('Authorization',res.token);
                         //console.log(sessionStorage.getItem('Autorization'));
