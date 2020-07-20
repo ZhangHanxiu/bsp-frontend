@@ -6,6 +6,7 @@ const service = axios.create({
     //47服务器
     // baseURL: 'http://47.103.39.109:15465/api',
     // baseURL:'http://192.168.11.234:15465/api',
+    //baseURL:'http://120.26.176.118:8088',
     baseURL:'http://localhost:8088',
     timeout: 5000
 });

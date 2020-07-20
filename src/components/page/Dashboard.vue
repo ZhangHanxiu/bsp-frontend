@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="10">
                 <el-card shadow="hover" class="mgb20" style="height:252px;">
                     <div class="user-info">
                         <img src="../../assets/img/upload.jpg" class="user-avator" alt />
@@ -12,52 +12,19 @@
                     </div>
                 </el-card>
             </el-col>
-            <el-col :span="16">
+            <el-col :span="14">
                 <el-row :gutter="20" class="mgb20">
-                    <el-col :span="24">
-                        <el-card shadow="hover" style="height:403px;">
-                            <div slot="header" class="clearfix">
-                                <span>待办事项</span>
-                                <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
-                            </div>
-                            <el-table :show-header="false" :data="todoList" style="width:100%;">
-                                <el-table-column width="40">
-                                    <template slot-scope="scope">
-                                        <el-checkbox v-model="scope.row.status"></el-checkbox>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column>
-                                    <template slot-scope="scope">
-                                        <div
-                                                class="todo-item"
-                                                :class="{'todo-item-del': scope.row.status}"
-                                        >{{scope.row.title}}</div>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column width="60">
-                                    <template>
-                                        <i class="el-icon-edit"></i>
-                                        <i class="el-icon-delete"></i>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
+                    <el-col>
+                        <el-card shadow="hover">
+                            <div ref="chart" style="width:100%;height:376px"></div>
+<!--                            <div id="echart1" ref="echart1" class="echart"></div>-->
                         </el-card>
                     </el-col>
                 </el-row>
-
             </el-col>
         </el-row>
         <el-row :gutter="20">
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
-                </el-card>
-            </el-col>
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
-                </el-card>
-            </el-col>
+
         </el-row>
     </div>
 </template>
@@ -65,114 +32,90 @@
 <script>
     import Schart from 'vue-schart';
     import bus from '../common/bus';
+
     export default {
         name: 'dashboard',
         data() {
             return {
                 name: localStorage.getItem('show_name'),
-                todoList: [
-                    {
-                        title: '今天要修复100个bug',
-                        status: false
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: false
-                    },
-                    {
-                        title: '今天要写100行代码加几个bug吧',
-                        status: false
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: false
-                    },
-                    {
-                        title: '今天要修复100个bug',
-                        status: true
-                    },
-                    {
-                        title: '今天要写100行代码加几个bug吧',
-                        status: true
-                    }
-                ],
-                data: [
-                    {
-                        name: '2018/09/04',
-                        value: 1083
-                    },
-                    {
-                        name: '2018/09/05',
-                        value: 941
-                    },
-                    {
-                        name: '2018/09/06',
-                        value: 1139
-                    },
-                    {
-                        name: '2018/09/07',
-                        value: 816
-                    },
-                    {
-                        name: '2018/09/08',
-                        value: 327
-                    },
-                    {
-                        name: '2018/09/09',
-                        value: 228
-                    },
-                    {
-                        name: '2018/09/10',
-                        value: 1065
-                    }
-                ],
-                options: {
-                    type: 'bar',
+                option_mvo : {
                     title: {
-                        text: '最近一周各品类销售图'
+                        text: 'Order Status',
+                        left: 'center'
                     },
-                    xRorate: 25,
-                    labels: ['周一', '周二', '周三', '周四', '周五'],
-                    datasets: [
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: ['Pending Payment', 'Pending Delivery', 'Pending Receipt', 'Completed','Returning']
+                    },
+                    series: [
                         {
-                            label: '家电',
-                            data: [234, 278, 270, 190, 230]
-                        },
-                        {
-                            label: '百货',
-                            data: [164, 178, 190, 135, 160]
-                        },
-                        {
-                            label: '食品',
-                            data: [144, 198, 150, 235, 120]
+                            name: 'Order Status',
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['50%', '60%'],
+                            data: [
+                                {value: 335, name: 'Pending Payment'},
+                                {value: 310, name: 'Pending Delivery'},
+                                {value: 234, name: 'Pending Receipt'},
+                                {value: 1353, name: 'Completed'},
+                                {value: 15, name: 'Returning'}
+
+                            ],
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
                         }
-                    ]
-                },
-                options2: {
-                    type: 'line',
-                    title: {
-                        text: '最近几个月各品类销售趋势图'
+                    ]},
+                option_gvo : {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b}: {c} ({d}%)'
                     },
-                    labels: ['6月', '7月', '8月', '9月', '10月'],
-                    datasets: [
+                    legend: {
+                        orient: 'vertical',
+                        left: 10,
+                        data: ['Under Application', 'Approved', 'Rejected']
+                    },
+                    series: [
                         {
-                            label: '家电',
-                            data: [234, 278, 270, 190, 230]
-                        },
-                        {
-                            label: '百货',
-                            data: [164, 178, 150, 135, 160]
-                        },
-                        {
-                            label: '食品',
-                            data: [74, 118, 200, 235, 90]
+                            name: 'Transaction Status',
+                            type: 'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: [
+                                {value: 121, name: 'Under Application'},
+                                {value: 200, name: 'Approved'},
+                                {value: 20, name: 'Rejected'}
+                            ]
                         }
                     ]
                 }
             };
         },
         components: {
-            Schart
         },
         computed: {
             role() {
@@ -186,6 +129,9 @@
                 }
                 //return this.name === 'admin' ? '超级管理员' : '普通用户';
             }
+        },
+        mounted() {
+                this.getEchartData()
         },
         // created() {
         //     this.handleListener();
@@ -205,6 +151,22 @@
                     const date = new Date(now - (6 - index) * 86400000);
                     item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
                 });
+            },
+            getEchartData() {
+                const chart = this.$refs.chart
+                if (chart) {
+                    const myChart = this.$echarts.init(chart)
+                    const option = localStorage.getItem("role_id")!=='1'?this.option_mvo:this.option_gvo
+                    myChart.setOption(option)
+                    window.addEventListener("resize", function() {
+                        myChart.resize()
+                    })
+                }
+                this.$on('hook:destroyed',()=>{
+                    window.removeEventListener("resize", function() {
+                        myChart.resize();
+                    });
+                })
             }
             // handleListener() {
             //     bus.$on('collapse', this.handleBus);
