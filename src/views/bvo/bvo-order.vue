@@ -2,10 +2,10 @@
   <el-container>
     <el-header>
       <div class="page-header position-relative">
-        <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          借卖方BVO
-          <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> 订单管理Order management
+        <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
+          BVO
+          <small style="font-size:16px;">
+            <i class="el-icon-d-arrow-right"></i> Order management
           </small>
         </h1>
       </div>
@@ -154,7 +154,7 @@
     </el-main>
 
 		<!-- !!!!!商品详情!!!!!!! -->
-		<el-dialog title="商品详情" :visible.sync="detail" width="50%">
+		<el-dialog title="Product Details" :visible.sync="detail" width="50%">
         <el-table :data="product" show-header="false" style="width: 100%" >
           <el-table-column prop="imgPath" min-width="30%">
             <template slot-scope="scope">
@@ -181,13 +181,13 @@
       </el-dialog>
 
 		<!-- !!!!!物流跟踪!!!!!!! -->
-		<el-dialog title="物流跟踪" :visible.sync="logistics" width="60%">
+		<el-dialog title="Logistics tracking" :visible.sync="logistics" width="60%">
 			<span></span>
 			<el-steps :active="2" align-center>
-				<el-step title="已出库" description="2017-07-13 09：00:00"></el-step>
-				<el-step title="发往广州" description="2017-07-14 1：00:00"></el-step>
-				<el-step title="到棠下村" description="2017-07-13 09：00:00"></el-step>
-				<el-step title="正在派送" description="2017-07-15 22：10:00"></el-step>
+				<el-step title="Out of stock" description="2017-07-13 09：00:00"></el-step>
+				<el-step title="Ship to Guangzhou" description="2017-07-14 1：00:00"></el-step>
+				<el-step title="Arrive in Shanghai" description="2017-07-13 09：00:00"></el-step>
+				<el-step title="Sending" description="2017-07-15 22：10:00"></el-step>
 			</el-steps>
 			<!-- <span>
 				<el-steps :active="2" align-center v-for="item in logisticsinfo" :key="item">
@@ -200,7 +200,7 @@
 		</el-dialog>
 
 		<!-- !!!!!钱包登录!!!!!!! -->
-		<el-dialog title="钱包登录" :visible.sync="wallet" width="40%">
+		<el-dialog title="Wallet login" :visible.sync="wallet" width="40%">
 			<span></span>
 			<el-form :model="walletInfo" :rules="walletRules" ref="walletInfo" label-width="auto" class="demo-ruleForm" >
 				<el-form-item label="Accountn Name" prop="accountname">
@@ -218,7 +218,7 @@
 		</el-dialog>
 
 		<!-- !!!!!支付!!!!!!! -->
-		<el-dialog title="支付" :visible.sync="pay" width="40%">
+		<el-dialog title="Pay" :visible.sync="pay" width="40%">
 			<span></span>
 			<span>Total:{{totalpay}}</span>
 			<span slot="footer" class="dialog-footer">
@@ -269,19 +269,19 @@ export default {
       },
 			logisticsinfo:[
 				{
-					title:'已出库',
+					title:'Out of stock',
 					description:'2017-07-13 09：00:00'
 				},
 				{
-					title:'发往广州',
+					title:'Ship to Guangzhou',
 					description:'2017-07-14 1：00:00'
 				},
 				{
-					title:'到棠下村',
+					title:'Arrive in Shanghai',
 					description:'2017-07-13 09：00:00'
 				},
 				{
-					title:'正在派送',
+					title:'Sending',
 					description:'2017-07-15 22：10:00'
 				}
 			],
@@ -319,7 +319,7 @@ export default {
 	    	if (res.code === 0){
 	    		this.AwaitingPaymentTableData = res.data;
 			}else {
-	    		this.$message.error('数据回显异常')
+	    		this.$message.error('Data echo is abnormal')
 			}
 		});
 
@@ -327,7 +327,7 @@ export default {
 			if (res.code === 0){
 				this.AwaitingShipmentTableData = res.data;
 			}else {
-				this.$message.error('数据回显异常')
+				this.$message.error('Data echo is abnormal')
 			}
 		});
 
@@ -335,7 +335,7 @@ export default {
 			if (res.code === 0){
 				this.ShippedTableData = res.data;
 			}else {
-				this.$message.error('数据回显异常')
+				this.$message.error('Data echo is abnormal')
 			}
 		});
 
@@ -343,7 +343,7 @@ export default {
 			if (res.code === 0){
 				this.CompletedTableData = res.data;
 			}else {
-				this.$message.error('数据回显异常')
+				this.$message.error('Data echo is abnormal')
 			}
 		});
 
@@ -351,7 +351,7 @@ export default {
 			if (res.code === 0){
 				this.CancelledTableData = res.data;
 			}else {
-				this.$message.error('数据回显异常')
+				this.$message.error('Data echo is abnormal')
 			}
 		});
 	},
@@ -362,7 +362,7 @@ export default {
 				if (res.code === 0){
 					this.product = [res.data];
 				}else {
-					this.$message.error('详情数据回显异常!')
+					this.$message.error('Details data echo abnormal!')
 				}
 			});
         this.detail = true;
@@ -380,11 +380,11 @@ export default {
          	if (valid) {
 				loginWallet(this.walletInfo).then(res => {
 					if (res.code === 200) {
-						this.$message.success('登陆成功!');
+						this.$message.success('Login successful!');
 						localStorage.setItem('accountName', res.data.account_name);
 						this.$router.push('/bvo-interface' + res.data.buyer_id);
 					} else {
-						this.$message.error('登录失败,用户名或密码错误,请重新登陆!')
+						this.$message.error('Login failed, username or password is wrong, please log in again!')
 					}
 				})
         } else {

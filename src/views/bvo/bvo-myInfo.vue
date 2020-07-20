@@ -3,9 +3,9 @@
     <el-container id="main-content" class="clearfix">
       <el-header>
         <div class="page-header position-relative">
-          <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-            借卖方BVO
-            <small style="font-size:14px;">
+          <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
+            BVO
+            <small style="font-size:16px;">
               <i class="el-icon-d-arrow-right"></i> My Information
             </small>
           </h1>
@@ -35,10 +35,7 @@
                 <br/>
                 <br/>
                 <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+
                 <div style="text-align: right">
                   <el-button  type="primary" plain size="mini" @click="editMyinfo()">Edit</el-button>
                 </div>
@@ -211,7 +208,7 @@
               if (res.code === 0){
                 this.myInfo = res.data;
               }else {
-                this.$message.error('数据回显异常')
+                this.$message.error('Abnormal data echo')
               }
             })
           },
@@ -221,7 +218,7 @@
               if (res.code === 0) {
                 this.editInfo = res.data;
               } else {
-                this.$message.error('数据回显异常')
+                this.$message.error('Abnormal data echo')
               }
             })
           },
@@ -232,13 +229,13 @@
                 if (res.code === 0){
                   this.toedit = false;
                   this.getBvoInfo();
-                  this.$message.success('更新成功');
+                  this.$message.success('Update succeeded');
                 }else {
-                  this.$message.error('更新失败')
+                  this.$message.error('Update failed')
                 }
               })
             }else {
-              this.$message.error('请输入正确信息')
+              this.$message.error('Please enter the correct information!!')
             }
           });
 
@@ -252,9 +249,9 @@
                   }
                 })
                 this.toAdd = false;
-                this.$message.success('添加成功');
+                this.$message.success('Added successfully');
               }else {
-                this.$message.error('添加失败')
+                this.$message.error('Add failed')
               }
             })
           }

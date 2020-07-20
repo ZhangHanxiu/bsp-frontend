@@ -507,7 +507,7 @@ export default {
           }
           this.AwaitingPaymentTableData = res.data;
         }else {
-          this.$message.error('数据回显异常')
+          this.$message.error('Abnormal data echo')
         }
       });
     },
@@ -516,9 +516,9 @@ export default {
         this.detail = true;
     },
     toShip(i){
-			this.$confirm('是否确认发货?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+			this.$confirm('Is delivery confirmed?', 'Tips', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           this.ShippedTableData.push({
@@ -533,31 +533,31 @@ export default {
 					this.AwaitingShipmentTableData.splice(i, 1);
           this.$message({
             type: 'success',
-            message: '发货成功!'
+            message: 'Delivery successful!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消发货'
+            message: 'Shipment cancelled'
           });
         });
 		},
 		toCancel(i){
-			this.$confirm('是否取消发货?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+			this.$confirm('Cancel shipment?', 'Tips', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           this.CompletedTableData.push(this.ShippedTableData[i]);
 					this.ShippedTableData.splice(i, 1);
           this.$message({
             type: 'success',
-            message: '取消发货成功!'
+            message: 'Cancel shipment successfully!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已中止操作'
+            message: 'Operation aborted'
           });
         });
 		}

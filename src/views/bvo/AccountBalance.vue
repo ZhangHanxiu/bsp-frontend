@@ -2,9 +2,9 @@
   <el-container>
     <el-header>
       <div class="page-header position-relative">
-        <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
+        <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
           BVO
-          <small style="font-size:14px;">
+          <small style="font-size:16px;">
             <i class="el-icon-d-arrow-right"></i> My Wallet
           </small>
         </h1>
@@ -83,13 +83,13 @@
           accountNumber:'ace.com',
           account:145,
           createTime:'2020-09-04 09:12:11',
-          status:'处理中'
+          status:'Processing'
         },
           {
             accountNumber:'bbb.com',
             account:165,
             createTime:'2020-10-04 09:12:11',
-            status:'完成'
+            status:' Finish'
           }
         ]
       }
@@ -102,9 +102,9 @@
         this.form.account_type = 1;
         registerWallet(this.form).then(res =>{
           if (res.code === 200){
-            this.$message.success('注册成功,可以返回登陆界面登陆啦')
+            this.$message.success('Successful registration, you can return to the login interface')
           }else {
-            this.$message.error("注册失败")
+            this.$message.error("Registration failed")
           }
         })
       },
@@ -124,11 +124,11 @@
       loginWallet(){
         loginWallet(this.walletInfo).then(res =>{
           if (res.code ===200 ){
-            this.$message.success('登陆成功!');
+            this.$message.success('Login successful!');
             localStorage.setItem('accountName',res.data.account_name);
             this.$router.push('/bvo-interface'+res.data.buyer_id);
           }else {
-            this.$message.error('登录失败,用户名或密码错误,请重新登陆!')
+            this.$message.error('Login failed, user name or password error, please login again!')
           }
         })
       },

@@ -2,10 +2,10 @@
 	<el-container>
 	  <el-header>
 	    <div class="page-header position-relative">
-	      <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-	        借卖方BVO
-	        <small style="font-size:14px;">
-	          <i class="el-icon-d-arrow-right"></i> 心愿单Wishlist
+	      <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
+	        BVO
+	        <small style="font-size:16px;">
+	          <i class="el-icon-d-arrow-right"></i> Wishlist
 	        </small>
 	      </h1>
 	    </div>
@@ -158,7 +158,7 @@ export default {
             if (res.code === 0){
                 this.wishlist = res.data;
             }else {
-                this.$message.error('数据回显异常')
+                this.$message.error('Data echo is abnormal')
             }
         })
       },
@@ -174,7 +174,7 @@ export default {
          deletewish(){
              let length = this.multipleSelection.length;
              console.log(length)
-             this.$confirm('确定要删除所选择的心愿单信息吗?','提示',{
+             this.$confirm('Are you sure you want to delete the selected wishlist information?','Tips',{
                  type:'warning'
              }).then(action =>{
                  if (action === 'confirm'){
@@ -186,12 +186,12 @@ export default {
                      if (res.code == 0){
                          this.multipleSelection = [];
                          this.delList = [];
-                         this.$message.success('删除成功');
+                         this.$message.success('Successfully deleted');
                          this.getProduct()
                      }else{
                          this.multipleSelection = [];
                          this.delList = [];
-                         this.$message.error('删除失败');
+                         this.$message.error('Successfully deleted');
                      }
                  })
              })

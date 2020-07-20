@@ -2,9 +2,9 @@
     <el-container>
         <el-header>
             <div class="page-header position-relative">
-                <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
+                <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
                     MVO
-                    <small style="font-size:14px;">
+                    <small style="font-size:16px;">
                         <i class="el-icon-d-arrow-right"></i> My Wallet
                     </small>
                 </h1>
@@ -18,7 +18,7 @@
             <div :style="{display:table1}">
                 <div style="margin-top: 50px;margin-bottom: 20px">
                     <el-button icon="el-icon-search" style="width: 100px">Search</el-button>
-                    <div><p style="font-size: 30px;color: #20a0ff">品牌商MVO>>账户余额Account Balance</p></div>
+                    <div><p style="font-size: 18px;color: #20a0ff">Account Balance</p></div>
                 </div>
                 <el-table
                         :data="testList"
@@ -52,7 +52,7 @@
             <div :style="{display:table2}">
                 <div style="margin-top: 50px;margin-bottom: 20px">
                     <el-button icon="el-icon-search" style="width: 100px">Search</el-button>
-                    <div><p style="font-size: 30px;color: #20a0ff">品牌商MVO>>提现明细Withdrawal details</p></div>
+                    <div><p style="font-size: 18px;color: #20a0ff">Withdrawal details</p></div>
                 </div>
                 <el-table
                         :data="testList2"
@@ -158,13 +158,13 @@
                     accountNumber:'ace.com',
                     account:145,
                     createTime:'2020-09-04 09:12:11',
-                    status:'处理中'
+                    status:'Processing'
                 },
                     {
                         accountNumber:'bbb.com',
                         account:165,
                         createTime:'2020-10-04 09:12:11',
-                        status:'完成'
+                        status:'Finish'
                     }
                 ]
             }

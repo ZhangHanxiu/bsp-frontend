@@ -2,10 +2,10 @@
 	<el-container>
 	  <el-header>
 	    <div class="page-header position-relative">
-	      <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-	        借卖方BVO
-	        <small style="font-size:14px;">
-	          <i class="el-icon-d-arrow-right"></i> 商品浏览Product Browse
+	      <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
+	        BVO
+	        <small style="font-size:16px;">
+	          <i class="el-icon-d-arrow-right"></i> Product Browse
 	        </small>
 	      </h1>
 	    </div>
@@ -34,7 +34,7 @@
         </el-row>
     </el-main>
     <!-- 商品详情!!!!!! -->
-    <el-dialog title="商品详情" :visible.sync="detail" width="50%">
+    <el-dialog title="Product details" :visible.sync="detail" width="50%">
         <el-table :data="product" show-header="false" style="width: 100%" >
           <el-table-column prop="imgPath" min-width="30%">
             <template slot-scope="scope">
@@ -183,17 +183,17 @@ export default {
       this.detail = false
     },
     addtoWish(){
-      this.$confirm('是否将该商品加入心愿单?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+      this.$confirm('Whether to add the product to the wish list?', 'Tips', {
+          confirmButtonText: 'Yse',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(action =>{
             if (action === 'confirm'){
                 addToWish(this.detailProduct.proId).then(res =>{
                     if (res.code === 0){
-                        this.$message.success('添加心愿单成功');
+                        this.$message.success('Succeeded in adding wishlist');
                     }else{
-                        this.$message.error('添加心愿单失败');
+                        this.$message.error('Failed to add wishlist');
                     }
                 })
             }

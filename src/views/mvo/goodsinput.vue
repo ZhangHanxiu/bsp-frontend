@@ -113,8 +113,7 @@
           <el-form-item label="SKU" prop="sku_cd">
             <el-input v-model="newgood.sku_cd"></el-input>
           </el-form-item>
-          <span class="text">品牌商可以选择不提供UPC和EAN码 eBay网店不一定需要UPC码，amazon网店通常自己再另外为借卖商品申请UPC码，
-            这样可以让商品独立销售，如果amazon网店不为借卖商品另外申请UPC码，将以跟卖商品销售商品。</span>
+          <span class="text">You can choose not to provide UPC and ean codes</span>
           <el-form-item label="UPC" prop="upc">
             <el-input v-model="newgood.upc"></el-input>
           </el-form-item>

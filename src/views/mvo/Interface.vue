@@ -3,10 +3,10 @@
   <el-container>
     <el-header>
       <div class="page-header position-relative">
-        <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
+        <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
           MVO
-          <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> Account Balance
+          <small style="font-size:16px;">
+            <i class="el-icon-d-arrow-right"></i> Account information
           </small>
         </h1>
       </div>
@@ -19,7 +19,7 @@
       <div :style="{display:table1}">
         <div style="margin-top: 50px;margin-bottom: 20px">
           <el-input icon="el-icon-search" style="width: 170px"></el-input> <el-button style="margin-left: 15px" @click="accountBalance" type="success">搜索</el-button>
-          <div><p style="font-size: 30px;color: #20a0ff">品牌商MVO>>Account Balance</p></div>
+          <div><p style="font-size: 18px;color: #20a0ff">Account Balance</p></div>
 
         </div>
         <el-table
@@ -52,8 +52,8 @@
 
       <div :style="{display:table2}">
         <div style="margin-top: 50px;margin-bottom: 20px">
-          <el-button icon="el-icon-search" style="width: 100px">搜索</el-button>
-          <div><p style="font-size: 30px;color: #20a0ff">品牌商MVO>>提现明细Withdrawal Details</p></div>
+          <el-button icon="el-icon-search" style="width: 100px">Search</el-button>
+          <div><p style="font-size: 18px;color: #20a0ff">Withdrawal Details</p></div>
         </div>
         <el-table
                 :data="testList2"
@@ -196,7 +196,7 @@ export default {
         if (res.code === 200){
           this.testList2 = res.data;
         }else {
-          this.$message.error('获取数据异常!')
+          this.$message.error('Abnormal data acquisition!')
         }
       })
     },
@@ -211,25 +211,25 @@ export default {
         if (res.code === 200){
           this.getAccountBalance(this.account.buyer_id);
           this.dialogAddVisible = false;
-          this.$message.success('提现成功');
+          this.$message.success('Withdrawal successful');
         }else {
-          this.$message.error('提现失败');
+          this.$message.error('Withdrawal failed');
         }
       })
     },
     formatterType(row, column){
       switch(row.status) {
         case -1:
-          return '失败';
+          return 'Fail';
           break;
         case 2:
-          return '申请';
+          return 'Apply';
           break;
         case 3:
-          return '完成';
+          return 'Finish';
           break;
         default:
-          return '未知';
+          return 'Unknown';
       }
     },
     accountBalance(){

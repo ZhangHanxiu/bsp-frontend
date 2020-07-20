@@ -271,10 +271,10 @@ export default {
       },
       rules: {
           title: [
-            { required: true, message: '请选择商品', trigger: 'change' }
+            { required: true, message: 'Please select product', trigger: 'change' }
           ],
           category_name: [
-            { required: true, message: '请选择商品类别', trigger: 'change' }
+            { required: true, message: 'Please select product category', trigger: 'change' }
           ],
       },
     };
@@ -361,12 +361,12 @@ export default {
           })
           console.log(this.tableData)
           this.$message({
-            message: '添加成功',
+            message: 'Added successfully',
             type: 'success'
           })
         } else {
           console.log('error submit!!')
-          alert('请正确填写信息!!')
+          alert('Please fill in the information correctly!!')
           return false
         }
         this.newpic = {
@@ -410,12 +410,12 @@ export default {
           this.tableData[i].picture = this.editpicInfo.picture
           this.toeditpic = false
           this.$message({
-            message: '修改成功',
+            message: 'Modification succeeded',
             type: 'success'
           })
         } else {
           console.log('error submit!!')
-          alert('请正确填写信息!!')
+          alert('Please fill in the information correctly!!')
           return false
         }
       })
@@ -431,7 +431,7 @@ export default {
     },
     handleModifyStatus(i, sts_cd) {
       this.$message({
-        message: '操作Success',
+        message: 'Operation succeeded',
         type: 'success'
       });
       this.tableData[i].sts_cd = sts_cd
@@ -452,27 +452,27 @@ export default {
 
     },
     deletepic(i) {
-        this.$confirm('是否确认删除该商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure you want to delete this product?', 'Tips', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           this.tableData.splice(i, 1);
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: 'Deletion succeeded!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Deletion cancelled'
           });
         });
     },
     deleteAll(){
-        this.$confirm('是否确认删除这些商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure you want to delete these items?', 'Tips', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           this.multipleSelection.forEach((item) => {
@@ -486,12 +486,12 @@ export default {
           this.multipleSelection = [];
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: 'Deletion succeeded!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Deletion cancelled'
           });
         });
     },

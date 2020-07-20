@@ -13,7 +13,7 @@
 
     <el-main>
       <span>
-      公司信息Company Information：
+      Company Information：
       </span>
       <br />
       <br />
@@ -33,14 +33,14 @@
       <br/>
       <br/>
       <span>
-        品牌信息Brand Information：
+        Brand Information：
       </span>
       <br/>
       <br/>
       <el-table :data="brandInfo" style="width: 100%" highlight-current-row @selection-change="handleSelectionChange">
         <el-table-column type="selection" align="center" />
-        <el-table-column prop="name_en"  label="品牌名称Brand Name"></el-table-column>
-        <el-table-column prop="url" label="品牌图片Brand Logo">
+        <el-table-column prop="name_en"  label="Brand Name"></el-table-column>
+        <el-table-column prop="url" label="Brand Logo">
           <template slot-scope="scope">
             <img  :src="scope.row.url" alt="" style="width: 150px;height: 150px">
           </template>
@@ -66,9 +66,6 @@
             <el-input v-model="newbrand.brandName"></el-input>
           </el-form-item>
           <span style="color:red;font-size:12px">The recommended image size and format is 150*150 jpg/png</span>
-          <!-- <el-form-item label-width="0px">
-            <span style="color:red;font-size:12px">建议图片大小150*150的jpg/png格式</span>
-          </el-form-item> -->
           <el-form-item label="Brand Logo" prop="logo">
             <dropzone id="myVueDropzone" url="https://httpbin.org/post" @dropzone-removedFile="dropzoneR" @dropzone-success="dropzoneS" />
           </el-form-item>
@@ -245,7 +242,7 @@ export default {
         if (res.code === 200){
           this.companyInfo = [res.data];
         }else {
-          this.$message.error('数据回显异常');
+          this.$message.error('Data echo is abnormal');
         }
       })
     },
@@ -261,14 +258,14 @@ export default {
             saveCompanyEdit(this.editcompanyInfo).then(res =>{
               if (res.code === 200){
                 this.changeCompanyinfo = false;
-                this.$message.success('更新成功');
+                this.$message.success('Update succeeded');
               }else {
-                this.$message.error('更新失败')
+                this.$message.error('Update failed')
               }
             })
           } else {
             console.log('error submit!!');
-            alert('请正确填写信息!!');
+            alert('Please fill in the information correctly!!');
             return false;
           }
         });
@@ -283,12 +280,12 @@ export default {
             });
             console.log(this.brandInfo);
             this.$message({
-              message: '添加成功',
+              message: 'Added successfully',
               type: 'success'
             });
           } else {
             console.log('error submit!!');
-            alert('请正确填写信息!!');
+            alert('Please fill in the information correctly!!');
             return false;
           }
           this.newbrand = {
@@ -315,31 +312,31 @@ export default {
             this.brandInfo[i].bLogo = this.editbrandInfo.logo;
             this.toeditbrand = false;
             this.$message({
-              message: '修改成功',
+              message: 'Modification succeeded',
               type: 'success'
             });
           } else {
             console.log('error submit!!');
-            alert('信息不能为空!!');
+            alert('Please fill in the information correctly!!');
             return false;
           }
         });
     },
     deletebrand(i) {
-      this.$confirm('是否确认删除该商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+      this.$confirm('Are you sure you want to delete this product?', 'Tips', {
+          confirmButtonText: 'Sure',
+          cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
           this.brandInfo.splice(i, 1);
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: 'Deletion succeeded!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Deletion cancelled'
           });
         });
     },
@@ -348,9 +345,9 @@ export default {
       console.log(this.multipleSelection);
     },
     deleteAll(){
-        this.$confirm('是否确认删除这些商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure you want to delete these items?', 'Tips', {
+          confirmButtonText: 'Sure',
+          cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
           this.multipleSelection.forEach((item) => {
@@ -364,12 +361,12 @@ export default {
           this.multipleSelection = [];
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: 'Deletion succeeded!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Deletion cancelled'
           });
         });
     },
