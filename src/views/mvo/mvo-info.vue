@@ -3,9 +3,9 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          品牌商MVO
+          MVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> 公司信息 Company Information
+            <i class="el-icon-d-arrow-right"></i>  Company Information
           </small>
         </h1>
       </div>
@@ -13,7 +13,7 @@
 
     <el-main>
       <span>
-      公司信息：
+      公司信息Company Information：
       </span>
       <br />
       <br />
@@ -25,7 +25,7 @@
         <el-table-column prop="description" label="description"></el-table-column>
         <el-table-column label="operation">
           <template slot-scope="scope">
-            <el-button type="success"  icon="el-icon-edit" size="mini" to="/mvo/mvo-myInfo" @click="editcompany(scope.row)"></el-button>
+            <el-button type="primary"   icon="el-icon-edit" size="mini" to="/mvo/mvo-myInfo" @click="editcompany(scope.row)"></el-button>
           </template>
         </el-table-column>
 
@@ -33,7 +33,7 @@
       <br/>
       <br/>
       <span>
-        品牌信息：
+        品牌信息Brand Information：
       </span>
       <br/>
       <br/>
@@ -47,13 +47,13 @@
         </el-table-column>
         <el-table-column label="operation">
           <template slot-scope="scope">
-            <el-button type="success"  icon="el-icon-edit" size="mini" @click="editbrand(scope.$index)"></el-button>
+            <el-button type="primary" plain  icon="el-icon-edit" size="mini" @click="editbrand(scope.$index)"></el-button>
             <el-button type="danger" plain icon="el-icon-delete" size="mini" @click="deletebrand(scope.$index)"></el-button>
           </template>
         </el-table-column>
       </el-table>
       <br/>
-      <el-button type="success" plain icon="el-icon-plus" @click="toaddbrand = true">Add</el-button>
+      <el-button type="primary" plain icon="el-icon-plus" @click="toaddbrand = true">Add</el-button>
       <el-button type="primary" icon="el-icon-delete" :disabled="multipleSelection.length == 0" @click="deleteAll()">Delete All</el-button>
     </el-main>
 
@@ -65,7 +65,7 @@
           <el-form-item label="Brand Name" prop="brandName">
             <el-input v-model="newbrand.brandName"></el-input>
           </el-form-item>
-          <span style="color:red;font-size:12px">建议图片大小150*150的jpg/png格式</span>
+          <span style="color:red;font-size:12px">The recommended image size and format is 150*150 jpg/png</span>
           <!-- <el-form-item label-width="0px">
             <span style="color:red;font-size:12px">建议图片大小150*150的jpg/png格式</span>
           </el-form-item> -->
@@ -87,7 +87,7 @@
           <el-form-item label="Brand Name" prop="brandName">
             <el-input v-model="editbrandInfo.brandName"></el-input>
           </el-form-item>
-          <span style="color:red;font-size:12px">建议图片大小150*150的jpg/png格式</span>
+          <span style="color:red;font-size:12px">The recommended image size and format is 150*150 jpg/png</span>
           <!-- <el-form-item label-width="0px">
             <span style="color:red;font-size:12px">建议图片大小150*150的jpg/png格式</span>
           </el-form-item> -->
@@ -132,7 +132,6 @@
 </template>
 
 <script>
-// import { addBrand } from '@/api/mvo'
 import Dropzone from '@/components/Dropzone'
 import MarkdownEditor from '@/components/MarkdownEditor'
 import { getMyInfo } from '../../api/mvo';

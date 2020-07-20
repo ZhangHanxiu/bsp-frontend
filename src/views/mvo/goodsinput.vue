@@ -3,9 +3,9 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          品牌商MVO
+          MVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> 商品录入
+            <i class="el-icon-d-arrow-right"></i> Goods Input
           </small>
         </h1>
       </div>
@@ -13,7 +13,7 @@
 
     <el-main>
       <span>
-      商品标题name：
+      Title：
       <el-input style="width:200px" placeholder @input="search" v-model="search"></el-input>
       </span>
       <el-button type="primary" icon="el-icon-search" @click="searchgood()"></el-button>
@@ -46,7 +46,7 @@
     <!-- edit goods -->
     <el-dialog title="Edit" :visible.sync="edit" width="45%">
       <el-form :model="editgood" :rules="rules" ref="editgood" label-width="auto" class="demo-ruleForm" text-align="center">
-          <span class="text">商品标题中包含搜索关键字，品牌名，颜色，大小，型号</span>
+          <span class="text">The product title contains search keywords, brand name, color, size, model</span>
           <el-form-item label="Product name" prop="title">
             <el-input v-model="editgood.title"></el-input>
           </el-form-item>
@@ -59,7 +59,7 @@
           <el-form-item label="EAN" prop="ean">
             <el-input v-model="editgood.ean"></el-input>
           </el-form-item>
-          <el-form-item label="体积重">
+          <el-form-item label="Bulk">
             <el-col :span="11">
               <el-form-item label="Length" prop="length" size="mini">
                 <el-input v-model="editgood.length"></el-input>
@@ -106,7 +106,7 @@
     <!-- Add goods -->
     <el-dialog title="Add" :visible.sync="add" width="45%">
       <el-form :model="newgood" :rules="rules" ref="newgood" label-width="auto" class="demo-ruleForm" text-align="center">
-          <span class="text">商品标题中包含搜索关键字，品牌名，颜色，大小，型号</span>
+          <span class="text">The product title contains search keywords, brand name, color, size, model</span>
           <el-form-item label="Product name" prop="title">
             <el-input v-model="newgood.title"></el-input>
           </el-form-item>
@@ -121,7 +121,7 @@
           <el-form-item label="EAN" prop="ean">
             <el-input v-model="newgood.ean"></el-input>
           </el-form-item>
-          <el-form-item label="体积重">
+          <el-form-item label="Bulk">
             <el-col :span="11">
               <el-form-item label="Length" prop="length" size="mini">
                 <el-input v-model="newgood.length"></el-input>
@@ -146,18 +146,19 @@
           <el-form-item label="Model" prop="model">
             <el-input v-model="newgood.model"></el-input>
           </el-form-item>
-          <span class="text">商品正式上架前，请再审阅借卖价格，并选择借卖价格有效期</span>
+          <span class="text">Before the product is officially put on the shelves,
+              please review the borrowing and selling price and select the validity period of the borrowing and selling price</span>
           <el-form-item label="Price" prop="retail_price">
             <el-input v-model="newgood.retail_price"></el-input>
           </el-form-item>
           <el-form-item label="Stock" prop="stock">
             <el-input v-model="newgood.stock"></el-input>
           </el-form-item>
-          <span class="text">商品质保承诺将大大提升市场信心（可不提供）</span>
+          <span class="text">Commodity warranty commitment will greatly enhance market confidence (may not be provided)</span>
           <el-form-item label="Warranty Period" prop="warranty_day">
             <el-input v-model="newgood.warranty_day"></el-input>
           </el-form-item>
-          <span class="text">注意：商品详情可以利用图片+文字的方式推送</span>
+          <span class="text">Note: Product details can be pushed using pictures + text</span>
           <el-form-item label="Description" prop="description">
             <markdown-editor ref="markdownEditor" v-model="newgood.description" :options="{hideModeSwitch:true,previewStyle:'tab'}" height="200px" />
           </el-form-item>
@@ -309,10 +310,6 @@ export default {
             { required: true, message: 'Can not be empty', trigger: 'blur' },
             { min: 3, max: 10, message: 'Must be 3-10 characters', trigger: 'blur' }
           ],
-          stock: [
-            { required: true, message: 'Can not be empty', trigger: 'blur' },
-            { min: 3, max: 10, message: 'Must be 3-10 characters', trigger: 'blur' }
-          ],
           retail_price: [
             { required: true, message: 'Can not be empty', trigger: 'blur' },
           ],
@@ -356,14 +353,14 @@ export default {
             addGood(this.newgood).then(res =>{
                 if (res.code ===200){
                     this.add = false;
-                    this.$message.success('保存成功');
+                    this.$message.success('Saved successfully!');
                 }else {
-                    this.$message.error('保存失败')
+                    this.$message.error('Save failed')
                 }
             }) ;
           } else {
             console.log('error submit!!');
-            alert('请正确填写信息!!');
+            alert('Please fill in the information correctly!!');
             return false;
           }
         });
@@ -411,12 +408,12 @@ export default {
             this.goodsInfo[i].description = this.editgood.description;
             this.edit = false;
             this.$message({
-              message: '修改成功',
+              message: 'Successfully modified',
               type: 'success'
             });
           } else {
             console.log('error submit!!');
-            alert('请正确填写信息!!');
+            alert('Please fill in the information correctly!!');
             return false;
           }
         });
@@ -427,9 +424,9 @@ export default {
       console.log(this.multipleSelection);
     },
     deleteAll(){
-        this.$confirm('是否确认删除这些商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure to delete these products?', 'Prompt', {
+          confirmButtonText: 'Sure',
+          cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
           this.multipleSelection.forEach((item) => {
@@ -443,31 +440,31 @@ export default {
           this.multipleSelection = [];
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: 'Successfully deleted!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Undeleted'
           });
         });
     },
     deletegood(i) {
-        this.$confirm('是否确认删除该商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure to delete the product?', 'Prompt', {
+          confirmButtonText: 'Sure',
+          cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
           this.goodsInfo.splice(i, 1);
           this.goodsInfo[i].sts_cd = 'd';
           this.$message({
             type: 'success',
-            message: '删除成功!'
+            message: 'Successfully deleted!'
           });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Undeleted'
           });
         });
     },

@@ -1,41 +1,50 @@
 <template>
+  <el-container>
+    <el-header>
+      <div class="page-header position-relative">
+        <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
+          BVO
+          <small style="font-size:14px;">
+            <i class="el-icon-d-arrow-right"></i> My Wallet
+          </small>
+        </h1>
+      </div>
+    </el-header>
+    <el-main>
+      <el-button type="success" @click="registerUser">Registered</el-button>
+      <el-button type="success" @click="login">Login</el-button>
+      <div :style="{display:table3}" style="margin-top: 50px;">
+        <el-form label-width="80px" :model="form">
+          <el-form-item label="Email">
+            <el-input v-model="form.email"></el-input>
+          </el-form-item>
+          <el-form-item label="Account">
+            <el-input v-model="form.account_name"></el-input>
+          </el-form-item>
+          <el-form-item label="Password">
+            <el-input type="password" v-model="form.password"></el-input>
+          </el-form-item>
+          <el-form-item >
+            <el-button type="primary" style="margin-left: 800px" @click="registerWallet">Registered</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div :style="{display:table4}" style="margin-top: 50px;">
+        <el-form label-width="80px" :model="form">
+          <el-form-item label="Account">
+            <el-input v-model="form.accountname"></el-input>
+          </el-form-item>
+          <el-form-item label="Password">
+            <el-input type="password" v-model="form.password"></el-input>
+          </el-form-item>
+          <el-form-item >
+            <el-button type="primary" style="margin-left: 800px" @click="loginWallet">Login</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-main>
 
-
-  <div class="app-container">
-    <el-button type="success" @click="registerUser">注册</el-button>
-    <el-button type="success" @click="login">登陆</el-button>
-    <div :style="{display:table3}" style="margin-top: 50px;">
-      <el-form label-width="80px" :model="form">
-        <el-form-item label="邮箱">
-          <el-input v-model="form.email"></el-input>
-        </el-form-item>
-        <el-form-item label="账号">
-          <el-input v-model="form.account_name"></el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input type="password" v-model="form.password"></el-input>
-        </el-form-item>
-        <el-form-item >
-          <el-button type="primary" style="margin-left: 800px" @click="registerWallet">注册</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-    <div :style="{display:table4}" style="margin-top: 50px;">
-      <el-form label-width="80px" :model="form">
-        <el-form-item label="账号">
-          <el-input v-model="form.accountname"></el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input type="password" v-model="form.password"></el-input>
-        </el-form-item>
-        <el-form-item >
-          <el-button type="primary" style="margin-left: 800px" @click="loginWallet">登陆</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-
-
-  </div>
+  </el-container>
 </template>
 
 <script>

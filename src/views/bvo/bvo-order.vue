@@ -5,7 +5,7 @@
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
           借卖方BVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> 订单管理
+            <i class="el-icon-d-arrow-right"></i> 订单管理Order management
           </small>
         </h1>
       </div>
@@ -15,8 +15,8 @@
       Title：
       <el-input style="width:200px" placeholder @input="search" v-model="search_username"></el-input>
       </span>
-      <el-button type="success" icon="el-icon-search"></el-button>
-			<el-button type="success" icon="el-icon-download">
+      <el-button type="primary" icon="el-icon-search"></el-button>
+			<el-button type="primary" icon="el-icon-download">
         Pull Orders
       </el-button>
       <br />
@@ -45,7 +45,7 @@
 							<el-table-column prop="total" label="Total"></el-table-column>
 							<el-table-column label="Operation">
 								<template slot-scope="scope">
-									<el-button type="success" plain size="mini" @click="loginwallet(scope.$index)">Pay Now</el-button>
+									<el-button type="primary" plain size="mini" @click="loginwallet(scope.$index)">Pay Now</el-button>
 								</template>
 							</el-table-column>
 					</el-table>

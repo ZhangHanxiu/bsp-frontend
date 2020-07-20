@@ -5,12 +5,12 @@
             <i v-if="!collapse" class="el-icon-s-fold"></i>
             <i v-else class="el-icon-s-unfold"></i>
         </div>
-        <div class="logo">后台管理系统</div>
+        <div class="logo">Borrow-Sell Platform</div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
                 <div class="btn-fullscreen" @click="handleFullScreen">
-                    <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+                    <el-tooltip effect="dark" :content="fullscreen?`Cancel Full Screen`:`Full Screen`" placement="bottom">
                         <i class="el-icon-rank"></i>
                     </el-tooltip>
                 </div>
@@ -18,7 +18,7 @@
                 <div class="btn-bell">
                     <el-tooltip
                         effect="dark"
-                        :content="message?`有${message}条未读消息`:`消息中心`"
+                        :content="message?`There are${message}unread messages`:`Message Center`"
                         placement="bottom"
                     >
                         <router-link to="/tabs">
@@ -39,9 +39,9 @@
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
-                            <el-dropdown-item>项目仓库</el-dropdown-item>
+                            <el-dropdown-item>Github</el-dropdown-item>
                         </a>
-                        <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+                        <el-dropdown-item divided command="loginout">Log Out</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>

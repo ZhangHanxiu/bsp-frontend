@@ -1,89 +1,102 @@
 <template>
 
-  <div class="app-container">
-    <el-button type="success" @click="logout">退出登陆</el-button>
-    <el-button type="success" @click="accountMoney">账户余额</el-button>
-    <el-button type="success" @click="withdrawalSubsidiary">查看流水</el-button>
-
-    <div :style="{display:table1}">
-    <div style="margin-top: 50px;margin-bottom: 20px">
-      <el-input icon="el-icon-search" style="width: 170px"></el-input> <el-button style="margin-left: 15px" @click="accountBalance" type="success">搜索</el-button>
-      <div><p style="font-size: 30px;color: #20a0ff">品牌商>>流水</p></div>
-
-    </div>
-    <el-table
-      :data="testList"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-    >
-      <el-table-column label="账户" >
-        <template slot-scope="scope">
-          {{ scope.row.accountNumber }}
-        </template>
-      </el-table-column>
-      <el-table-column label="余额"  align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.account }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作" align="center">
-        <template slot-scope="scope">
-          <el-button type="text" @click="saveMoney" size="small">存钱</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    </div>
-    <div :style="{display:table2}">
-      <div style="margin-top: 50px;margin-bottom: 20px">
-        <el-button icon="el-icon-search" style="width: 100px">搜索</el-button>
-        <div><p style="font-size: 30px;color: #20a0ff">品牌商>>提现明细</p></div>
+  <el-container>
+    <el-header>
+      <div class="page-header position-relative">
+        <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
+          MVO
+          <small style="font-size:14px;">
+            <i class="el-icon-d-arrow-right"></i> My Wallet
+          </small>
+        </h1>
       </div>
-      <el-table
-              :data="testList2"
-              element-loading-text="Loading"
-              border
-              fit
-              highlight-current-row
-      >
-        <el-table-column label="交易流水号" >
-          <template slot-scope="scope">
-            {{ scope.row.transaction_id }}
-          </template>
-        </el-table-column>
-        <el-table-column label="余额" >
-          <template slot-scope="scope">
-            {{ scope.row.transaction_money }}
-          </template>
-        </el-table-column>
-        <el-table-column label="时间6"  align="center">
-          <template slot-scope="scope">
-            <span>{{ scope.row.transaction_time }}</span>
-          </template>
-        </el-table-column>
+    </el-header>
+    <el-main>
+      <el-button type="success" @click="logout">Log Out</el-button>
+      <el-button type="success" @click="accountMoney">Account Balance</el-button>
+      <el-button type="success" @click="withdrawalSubsidiary">View Record</el-button>
 
-        <el-table-column label="状态" align="center" :formatter="formatterType">
+      <div :style="{display:table1}">
+        <div style="margin-top: 50px;margin-bottom: 20px">
+          <el-input icon="el-icon-search" style="width: 170px"></el-input> <el-button style="margin-left: 15px" @click="accountBalance" type="success">搜索</el-button>
+          <div><p style="font-size: 30px;color: #20a0ff">品牌商MVO>>Record</p></div>
 
-        </el-table-column>
-      </el-table>
-    </div>
-    <div style="margin-right: 800px">
-      <el-dialog title="存钱" :modal="false" top="390px" :visible.sync="dialogAddVisible" width="20%" >
-        <el-form ref="add" :model="account">
-          <el-form-item label="金额">
-            <el-input v-model="account.amount" autocomplete="off"></el-input>
-          </el-form-item>
-
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="">取 消</el-button>
-          <el-button type="primary" @click="saveAccount">确 定</el-button>
         </div>
-      </el-dialog>
-    </div>
-  </div>
+        <el-table
+                :data="testList"
+                element-loading-text="Loading"
+                border
+                fit
+                highlight-current-row
+        >
+          <el-table-column label="Account" >
+            <template slot-scope="scope">
+              {{ scope.row.accountNumber }}
+            </template>
+          </el-table-column>
+          <el-table-column label="Balance"  align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.account }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="Operating" align="center">
+            <template slot-scope="scope">
+              <el-button type="text" @click="saveMoney" size="small">Save money</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div :style="{display:table2}">
+        <div style="margin-top: 50px;margin-bottom: 20px">
+          <el-button icon="el-icon-search" style="width: 100px">Search</el-button>
+          <div><p style="font-size: 30px;color: #20a0ff">品牌商MVO>>提现明细Withdrawal Details</p></div>
+        </div>
+        <el-table
+                :data="testList2"
+                element-loading-text="Loading"
+                border
+                fit
+                highlight-current-row
+        >
+          <el-table-column label="Transaction record number" >
+            <template slot-scope="scope">
+              {{ scope.row.transaction_id }}
+            </template>
+          </el-table-column>
+          <el-table-column label="Balance" >
+            <template slot-scope="scope">
+              {{ scope.row.transaction_money }}
+            </template>
+          </el-table-column>
+          <el-table-column label="Transaction Time"  align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.transaction_time }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="Status" align="center" :formatter="formatterType">
+
+          </el-table-column>
+        </el-table>
+      </div>
+      <div style="margin-right: 800px">
+        <el-dialog title="Save money" :modal="false" top="390px" :visible.sync="dialogAddVisible" width="20%" >
+          <el-form ref="add" :model="account">
+            <el-form-item label="Amount">
+              <el-input v-model="account.amount" autocomplete="off"></el-input>
+            </el-form-item>
+
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="">Cancel</el-button>
+            <el-button type="primary" @click="saveAccount">Sure</el-button>
+          </div>
+        </el-dialog>
+      </div>
+    </el-main>
+
+  </el-container>
 </template>
 
 <script>

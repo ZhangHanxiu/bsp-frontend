@@ -3,9 +3,9 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          品牌商MVO
+          MVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> 订单管理
+            <i class="el-icon-d-arrow-right"></i> Order management
           </small>
         </h1>
       </div>
@@ -15,8 +15,8 @@
       Title：
       <el-input style="width:200px" placeholder @input="search" v-model="search_username"></el-input>
       </span>
-      <el-button type="success" icon="el-icon-search"></el-button>
-			<el-button type="success" icon="el-icon-download">
+      <el-button type="primary" icon="el-icon-search"></el-button>
+			<el-button type="primary" icon="el-icon-download">
         Pull Orders
       </el-button>
       <br />
@@ -66,7 +66,7 @@
             <el-table-column prop="createdTime" label="Create Time"></el-table-column>
             <el-table-column label="Operation">
                 <template slot-scope="scope">
-                  <el-button type="success" plain size="mini" @click="toShip(scope.$index)">发货</el-button>
+                  <el-button type="primary" plain size="mini" @click="toShip(scope.$index)">Ship</el-button>
                 </template>
             </el-table-column>
           </el-table>
@@ -99,7 +99,7 @@
             </el-table-column>
             <el-table-column label="Operation">
                 <template slot-scope="scope">
-                  <el-button type="success" plain size="mini" @click="toCancel(scope.$index)">取消</el-button>
+                  <el-button type="primary" plain size="mini" @click="toCancel(scope.$index)">Cancel</el-button>
                 </template>
             </el-table-column>
 
@@ -155,7 +155,7 @@
     </el-main>
 
 		<!-- !!!!!商品详情!!!!!!! -->
-		<el-dialog title="商品详情" :visible.sync="detail" width="50%">
+		<el-dialog title="Product Details" :visible.sync="detail" width="50%">
         <el-table :data="product" show-header="false" style="width: 100%" >
           <el-table-column prop="imgPath" min-width="30%">
             <template slot-scope="scope">
@@ -183,13 +183,13 @@
       </el-dialog>
 
 		<!-- !!!!!!物流跟踪!!!!!!!!!!! -->
-    <el-dialog title="物流跟踪" :visible.sync="logistics" width="60%">
+    <el-dialog title="Logistics tracking" :visible.sync="logistics" width="60%">
 			<span></span>
 			<el-steps :active="2" align-center>
-				<el-step title="已出库" description="2017-07-13 09：00:00"></el-step>
-				<el-step title="发往广州" description="2017-07-14 1：00:00"></el-step>
-				<el-step title="到棠下村" description="2017-07-13 09：00:00"></el-step>
-				<el-step title="正在派送" description="2017-07-15 22：10:00"></el-step>
+				<el-step title="Out of stock" description="2017-07-13 09：00:00"></el-step>
+				<el-step title="Ship to Guangzhou" description="2017-07-14 1：00:00"></el-step>
+				<el-step title="Arrive in Shanghai" description="2017-07-15 09：00:00"></el-step>
+				<el-step title="Sending" description="2017-07-15 22：10:00"></el-step>
 			</el-steps>
 			<!-- <span>
 				<el-steps :active="2" align-center v-for="item in logisticsinfo" :key="item">

@@ -5,7 +5,7 @@
 	      <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
 	        借卖方BVO
 	        <small style="font-size:14px;">
-	          <i class="el-icon-d-arrow-right"></i> 商品浏览
+	          <i class="el-icon-d-arrow-right"></i> 商品浏览Product Browse
 	        </small>
 	      </h1>
 	    </div>

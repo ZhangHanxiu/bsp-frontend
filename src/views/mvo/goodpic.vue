@@ -3,9 +3,9 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          品牌商MVO
+          MVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> 商品主图&分类
+            <i class="el-icon-d-arrow-right"></i> Product main image & classification
           </small>
         </h1>
       </div>
@@ -13,54 +13,59 @@
 
     <el-main>
       <span>
-      商品标题title：
+      Product title：
       <el-input style="width:200px" placeholder @input="search" v-model="search_username"></el-input>
       </span>
-      <el-button type="success" icon="el-icon-search"></el-button>
-      <el-button type="success" plain icon="el-icon-plus" @click="toaddpic = true">Add</el-button>
-      <el-button type="success" icon="el-icon-delete" :disabled="multipleSelection.length == 0" @click="deleteAll()">Delete All</el-button>
+      <el-button type="primary" icon="el-icon-search"></el-button>
+      <el-button type="primary" plain icon="el-icon-plus" @click="toaddpic = true">Add</el-button>
+      <el-button type="primary" icon="el-icon-delete" :disabled="multipleSelection.length == 0" @click="deleteAll()">Delete All</el-button>
       <br />
       <br />
 
       <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" align="center" />
-        <el-table-column prop="title" label="商品标题"></el-table-column>
-        <el-table-column prop="category_name" label="类别"></el-table-column>
-        <el-table-column prop="picture" label="图片">
+        <el-table-column prop="title" label="Title"></el-table-column>
+        <el-table-column prop="category_name" label="Category"></el-table-column>
+        <el-table-column prop="picture" label="Picture">
           <template slot-scope="scope">
             <img  :src="scope.row.picture" alt="" style="width: 150px;height: 150px">
           </template>
         </el-table-column>
-        <el-table-column prop="sts_cd" label="状态">
-          <p v-if="sts_cd == 1"> 待入库</p>
-          <p v-if="sts_cd == 2"> 待上架</p>
-          <p v-if="sts_cd == 3"> 上架中</p>
+        <el-table-column prop="sts_cd" label="Status">
+          <template slot-scope="scope">
+            <div v-if="scope.row.sts_cd == '1'"> To be stored</div>
+            <div v-if="scope.row.sts_cd == '2'"> Pending</div>
+            <div v-if="scope.row.sts_cd == '3'"> On the shelf</div>
+          </template>
+<!--          <div v-if="sts_cd == '1'"> To be stored</div>-->
+<!--          <div v-if="sts_cd == '2'"> Pending</div>-->
+<!--          <div v-if="sts_cd == '3'"> On the shelf</div>-->
         </el-table-column>
 
         <el-table-column label="operation">
           <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="Edit" placement="top">
-              <el-button type="success"  icon="el-icon-edit" size="mini" @click="editpic(scope.$index)"></el-button>
+              <el-button type="primary"  icon="el-icon-edit" size="mini" @click="editpic(scope.$index)"></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="Delete" placement="top">
-              <el-button type="success" plain icon="el-icon-delete" size="mini" @click="deletepic(scope.$index)"></el-button>
+              <el-button type="primary" plain icon="el-icon-delete" size="mini" @click="deletepic(scope.$index)"></el-button>
             </el-tooltip>
-            <el-button v-if="scope.row.sts_cd=='待上架'" size="mini" type="success" @click="handleModifyStatus(scope.$index,'上架')">
-              上架
+            <el-button v-if="scope.row.sts_cd=='2'" size="mini"  @click="handleModifyStatus(scope.$index,'3')">
+              ON
             </el-button>
-            <el-button v-if="scope.row.sts_cd=='上架'" size="mini" @click="handleModifyStatus(scope.$index,'待上架')">
-              下架
+            <el-button v-if="scope.row.sts_cd=='3'" size="mini" @click="handleModifyStatus(scope.$index,'2')">
+              OFF
             </el-button>
-            <el-button v-if="scope.row.sts_cd=='待入仓'" size="mini" @click="handleModifyStatus(scope.$index,'待上架')">
-              入仓
-            </el-button>            
+            <el-button v-if="scope.row.sts_cd=='1'" size="mini" @click="handleModifyStatus(scope.$index,'2')">
+              IN
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-main>
-    
+
     <!-- 添加！！！！！！ -->
-    <el-dialog title="添加商品信息" :visible.sync="toaddpic" width="60%">
+    <el-dialog title="Add product information" :visible.sync="toaddpic" width="60%">
       <el-form :model="newpic" :rules="rules" ref="newpic" label-width="auto" class="demo-ruleForm" text-align="center" >
           <el-form-item label="Product name" prop="title">
             <el-select v-model="newpic.title">
@@ -72,8 +77,9 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <span class="text">请先选择GMC借卖平台商品大类，此分类决定了您的商品在借卖平台中展示的位置</span>
-          <el-form-item label="商品分类" prop="category_name">
+          <span class="text">Please select the product category of the GMC lending and selling platform first.
+            This category determines the position of your product on the lending and selling platform </span>
+          <el-form-item label="Categories" prop="category_name">
             <el-select v-model="newpic.category_name">
               <el-option
                 v-for="item in options"
@@ -109,7 +115,7 @@
             <el-button class="pan-btn blue-btn" @click="toaddpic = false">Cancel</el-button>
             <el-button class="pan-btn tiffany-btn" @click="submitForm($event,'newpic')">Save</el-button>
           </el-form-item>
-      </el-form> 
+      </el-form>
     </el-dialog>
 
     <!-- edit Picture -->
@@ -125,8 +131,9 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <span class="text">请先选择GMC借卖平台商品大类，此分类决定了您的商品在借卖平台中展示的位置</span>
-          <el-form-item label="商品分类" prop="category_name">
+          <span class="text">Please select the product category of the GMC lending and selling platform first.
+            This category determines the position of your product on the lending and selling platform </span>
+          <el-form-item label="Categories" prop="category_name">
             <el-select v-model="editpicInfo.category_name">
               <el-option
                 v-for="item in options"
@@ -179,29 +186,29 @@ export default {
       f: null,
       loadImage: '',
       tableData: [
-        { 
+        {
           title: "MP3",
           category_name:"电子产品",
-          picture:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2071684813,1084763777&fm=26&gp=0.jpg", 
-          sts_cd: "待上架" 
+          picture:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2071684813,1084763777&fm=26&gp=0.jpg",
+          sts_cd: "2"
         },
-        { 
+        {
           title: "电饭锅",
           category_name:"电器",
-          picture:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3077643480,3270535916&fm=26&gp=0.jpg", 
-          sts_cd: "上架" 
+          picture:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3077643480,3270535916&fm=26&gp=0.jpg",
+          sts_cd: "3"
         },
-        { 
+        {
           title: "耳机",
           category_name:"电子产品",
-          picture:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3936480169,2097530407&fm=26&gp=0.jpg", 
-          sts_cd: "待上架"
+          picture:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3936480169,2097530407&fm=26&gp=0.jpg",
+          sts_cd: "2"
         },
-        { 
+        {
           title: "MP3",
           category_name:"电子产品",
-          picture:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2071684813,1084763777&fm=26&gp=0.jpg", 
-          sts_cd: "待入仓" 
+          picture:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2071684813,1084763777&fm=26&gp=0.jpg",
+          sts_cd: "1"
         },
       ],
       goods:[
@@ -268,7 +275,7 @@ export default {
           ],
           category_name: [
             { required: true, message: '请选择商品类别', trigger: 'change' }
-          ],         
+          ],
       },
     };
   },
@@ -442,7 +449,7 @@ export default {
       this.multipleSelection = val
     },
     deleteall(){
-      
+
     },
     deletepic(i) {
         this.$confirm('是否确认删除该商品?', '提示', {
@@ -459,7 +466,7 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
     },
     deleteAll(){
@@ -485,7 +492,7 @@ export default {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
     },
   }

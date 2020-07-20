@@ -18,7 +18,7 @@ export default new Router({
                 {
                     path: '/dashboard',
                     component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
-                    meta: { title: '系统首页' }
+                    meta: { title: 'Borrow-Sell Platform' }
                 },
 
                 // mvo
@@ -124,26 +124,26 @@ export default new Router({
                     path: 'transaction',
                     component: () => import('../views/admin/Aduit'),
                     name: 'transaction-aduit',
-                    meta: { title: '流水审核' }
+                    meta: { title: 'Flow Audit' }
                 },
                 {
                     path: 'cdm',
                     component: () => import('../views/admin/Dictionary'),
                     name: 'goodsList',
-                    meta: { title: '字典管理' }
+                    meta: { title: 'Dictionary Management' }
                 },
                 {
                     path: 'mrm',
                     component: () => import('../views/admin/Menu'),
                     name: 'goodsList',
-                    meta: { title: '菜单管理' }
+                    meta: { title: 'Menu Management' }
                 },
 
                 {
                     path: 'role-management',
                     component: () => import('../views/admin/Role'),
                     name: 'role',
-                    meta: { title: '角色管理' }
+                    meta: { title: 'Role Management' }
                 },
 
                 {
@@ -172,6 +172,8 @@ export default new Router({
         {
             path: '*',
             redirect: '/404'
-        }
+        },
+
+
     ]
 });
