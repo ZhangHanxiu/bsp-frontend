@@ -1,76 +1,76 @@
 <template>
     <div>
-        <el-button type="success"  @click="addRole">角色添加</el-button>
+        <el-button type="success"  @click="addRole">Role addition</el-button>
         <el-table
                 :data="tableData"
                 border
                 class="table"
                 ref="multipleTable"
                 header-cell-class-name="table-header"
-                @selection-change=""
+                @selection-change="handleSelectionChange"
         >
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column type="index" label="序号" width="105" align="center"></el-table-column>
-            <el-table-column prop="role_name" label="角色名称" align="center"></el-table-column>
-            <el-table-column label="操作" width="380" align="center">
+            <el-table-column type="index" label="Number" width="105" align="center"></el-table-column>
+            <el-table-column prop="role_name" label="Role name" align="center"></el-table-column>
+            <el-table-column label="OPeration" width="380" align="center">
                 <template slot-scope="scope">
                     <el-button
                             type="text"
                             icon="el-icon-delete"
                             class="red"
                             @click="delRoleInfo(scope.row.role_id)"
-                    >删除</el-button>
+                    >Delete</el-button>
                     <el-button
                             type="text"
                             icon="el-icon-edit"
                             class="red"
                             @click="editRoleInfo(scope.row.role_id)"
-                    >修改</el-button>
+                    >Edit</el-button>
                     <el-button
                             type="text"
                             icon="el-icon-edit"
                             @click="authorityManagement(scope.row.role_id,scope.row)"
-                    >权限管理</el-button>
+                    >Authority management</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
         <div style="margin-right: 800px">
-            <el-dialog title="添加" :modal="false" top="390px" :visible.sync="dialogVisible" width="20%" >
+            <el-dialog title="Add" :modal="false" top="390px" :visible.sync="dialogVisible" width="20%" >
                 <el-form ref="add" :model="role">
-                    <el-form-item label="角色名称">
+                    <el-form-item label="Role name">
                         <el-input v-model="role.role_name" autocomplete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="角色描述">
+                    <el-form-item label="Role description">
                         <el-input v-model="role.role_description" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="">取 消</el-button>
-                    <el-button type="primary" @click="saveRole">确 定</el-button>
+                    <el-button @click="dialogVisible = true">Cancel</el-button>
+                    <el-button type="primary" @click="saveRole">Sure</el-button>
                 </div>
             </el-dialog>
         </div>
 
         <div style="margin-right: 800px">
-            <el-dialog title="添加" :modal="false" top="390px" :visible.sync="dialogVisible2" width="40%" >
+            <el-dialog title="Add" :modal="false" top="390px" :visible.sync="dialogVisible2" width="40%" >
                 <el-form ref="add" :model="edit">
-                    <el-form-item label="角色名称">
+                    <el-form-item label="Role name">
                         <el-input v-model="edit.role_name" autocomplete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="角色描述">
+                    <el-form-item label="Role description">
                         <el-input v-model="edit.role_description" autocomplete="off"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="">取 消</el-button>
-                    <el-button type="primary" @click="updateRole">确 定</el-button>
+                    <el-button @click="dialogVisible2 = true">Cancel</el-button>
+                    <el-button type="primary" @click="updateRole">Sure</el-button>
                 </div>
             </el-dialog>
         </div>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑角色信息" :visible.sync="editVisible" width="33%">
+        <el-dialog title="Edit role information" :visible.sync="editVisible" width="33%">
             <el-form ref="form" :model="editAuth" label-width="100px">
                 <el-form-item >
                     <el-tree :data="roleListTree" :props="roleTree"
@@ -80,8 +80,8 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="addVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveRoleAccess()">确 定</el-button>
+                <el-button @click="addVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="saveRoleAccess()">Sure</el-button>
             </span>
         </el-dialog>
     </div>
@@ -122,7 +122,7 @@
                     if (res.code === 200){
                         this.tableData = res.data;
                     }else {
-                        this.$message.error('获取角色信息出现异常')
+                        this.$message.error('Exception in getting role information')
                     }
                 })
             },
@@ -141,10 +141,10 @@
                     if (res.code ==200){
                         this.editVisible = false;
                         this.form = {};
-                        this.$message.success('成功');
+                        this.$message.success('Success');
                         this.getRole();
                     }else{
-                        this.$message.error('失败');
+                        this.$message.error('Fail');
                     }
                 })
             },
@@ -159,25 +159,25 @@
                         this.dialogVisible = false;
                         this.getRole();
                         this.role = {};
-                        this.$message.success('保存成功');
+                        this.$message.success('Saved successfully');
                     }else {
-                        this.$message.error('保存失败');
+                        this.$message.error('Save failed');
                     }
                 })
             },
 
             //单个删除
             delRoleInfo(id){
-                this.$confirm('确定要删除这个角色信息吗?','提示',{
+                this.$confirm('Are you sure you want to delete this role information?','Tips',{
                     type:'warning'
                 }).then(action =>{
                     if (action === 'confirm'){
                         delRoleInfo(id).then(res =>{
                             if (res.code == 200){
-                                this.$message.success('删除成功!');
+                                this.$message.success('Deletion succeeded!');
                                 this.getRole();
                             }else{
-                                this.$message.error('删除失败');
+                                this.$message.error('Deletion failed');
                             }
                         })
                     }
@@ -194,9 +194,9 @@
                     if (res.code === 200){
                         this.getRole();
                         this.dialogVisible2 = false;
-                        this.$message.success('更新成功');
+                        this.$message.success('Update succeeded');
                     }else {
-                        this.$message.error('更新失败')
+                        this.$message.error('Update failed')
                     }
                 })
             },
@@ -208,7 +208,7 @@
                     if (res.code === 200) {
                         this.roleListTree = res.data;
                     }else {
-                        this.$message.error('数据回显异常')
+                        this.$message.error('Abnormal data echo')
                     }
                 });
                 echoRoleInfo(id).then(res =>{

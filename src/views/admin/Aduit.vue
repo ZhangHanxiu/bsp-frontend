@@ -1,12 +1,22 @@
 <template>
 
-    <div class="app-container">
-        <el-button type="success" @click="withdrawalAudit">流水审核</el-button>
+    <el-container>
+        <el-header>
+        <div class="page-header position-relative">
+          <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
+            Admin
+            <small style="font-size:16px;">
+              <i class="el-icon-d-arrow-right"></i> My Information
+            </small>
+          </h1>
+        </div>
+      </el-header>
+        <el-button type="success" @click="withdrawalAudit">Record review</el-button>
 
         <div :style="{display:table2}">
             <div style="margin-top: 50px;margin-bottom: 20px">
-                <el-button icon="el-icon-search" style="width: 100px">搜索</el-button>
-                <div><p style="font-size: 30px;color: #20a0ff">管理员>>流水审核</p></div>
+                <el-button icon="el-icon-search" style="width: 100px">Search</el-button>
+                <div><p style="font-size: 18px;color: #20a0ff">Record review</p></div>
             </div>
             <el-table
                     :data="testList2"
@@ -20,43 +30,43 @@
                         {{ scope.row.account_name }}
                     </template>
                 </el-table-column>
-                <el-table-column label="交易类型" >
+                <el-table-column label="Transaction Type" >
                     <template slot-scope="scope">
-                        <span v-if="scope.row.transaction_type === 1">充值</span>
-                        <span v-if="scope.row.transaction_type === 2">提现</span>
-                        <span v-if="scope.row.transaction_type === 3">消费</span>
+                        <span v-if="scope.row.transaction_type === 1">Recharge</span>
+                        <span v-if="scope.row.transaction_type === 2">Withdraw</span>
+                        <span v-if="scope.row.transaction_type === 3">Consumption</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="金额"  align="center">
+                <el-table-column label="Amount"  align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.transaction_money }}</span>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="申请时间"  align="center">
+                <el-table-column label="Application Time"  align="center">
                     <template slot-scope="scope">
                         <span>{{ scope.row.transaction_time }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="状态" align="center" >
+                <el-table-column label="Status" align="center" >
                     <template slot-scope="scope">
-                        <span v-if="scope.row.status === 2">申请</span>
-                        <span v-if="scope.row.status === 4">完成</span>
-                        <span v-if="scope.row.status === -1">失败</span>
+                        <span v-if="scope.row.status === 2">Apply</span>
+                        <span v-if="scope.row.status === 4">Finish</span>
+                        <span v-if="scope.row.status === -1">Fail</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="审核"  align="center" :formatter="formatStatus">
                     <template slot-scope="scope">
-                        <el-button type="text" @click="AuditPre(scope.row.transaction_id)" size="small">审核</el-button>
+                        <el-button type="text" @click="AuditPre(scope.row.transaction_id)" size="small">Audit</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
         <div style="margin-right: 400px">
-            <el-dialog title="审核" :modal="false" top="390px" :visible.sync="dialogAddVisible" width="20%" >
+            <el-dialog title="Audit" :modal="false" top="390px" :visible.sync="dialogAddVisible" width="20%" >
                 <el-form ref="add" :model="account">
-                    <el-form-item label="审核">
-                        <el-select v-model="account.result_code" placeholder="请选择">
+                    <el-form-item label="Audit">
+                        <el-select v-model="account.result_code" placeholder="Please choose">
                             <el-option
                                     v-for="item in options"
                                     :key="item.value"
@@ -68,12 +78,12 @@
 
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="">取 消</el-button>
-                    <el-button type="primary" @click="Audit">确 定</el-button>
+                    <el-button @click="dialogAddVisible = false">Cancel</el-button>
+                    <el-button type="primary" @click="Audit">Sure</el-button>
                 </div>
             </el-dialog>
         </div>
-    </div>
+    </el-container>
 </template>
 
 <script>
@@ -113,13 +123,13 @@
                 check:{},
                 options: [{
                     value: -1,
-                    label: '失败'
+                    label: 'Fail'
                 }, {
                     value: 4,
-                    label: '完成'
+                    label: 'Finish'
                 }, {
                     value: 2,
-                    label: '申请'
+                    label: 'Apply'
                 },
             ]
             }
@@ -131,12 +141,12 @@
             withdrawalAudit(){
                 withdrawalAudit().then(res =>{
                     if (res.code === 200){
-                       this.$message.success('查询成功') ;
+                       this.$message.success('Search successful') ;
                        this.table2 = '';
                        this.testList2 = res.data;
 
                     }else {
-                        this.$message.error('数据展示异常!')
+                        this.$message.error('Data presentation abnormal!')
                     }
                 })
             },
@@ -145,9 +155,9 @@
                     if (res.code === 200){
                         this.dialogAddVisible = false;
                         this.withdrawalAudit();
-                        this.$message.success('审核成功');
+                        this.$message.success('Successful review');
                     }else {
-                        this.$message.error('审核失败,请痛打程序员大大')
+                        this.$message.error('The audit failed, please beat up the programmer!')
                     }
                 })
             },

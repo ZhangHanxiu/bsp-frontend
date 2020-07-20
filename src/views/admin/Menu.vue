@@ -1,6 +1,6 @@
 <template>
    <div>
-       <el-button type="success" @click="addMenu">菜单添加</el-button>
+       <el-button type="success" @click="addMenu">Menu addition</el-button>
        <zk-table :data="list" :columns="columns"
                  :expand-type="false"
                  :show-row-hover="true"
@@ -12,78 +12,78 @@
                        type="text"
                        icon="el-icon-edit"
                        @click="editMenu(scope.row)"
-               >修改</el-button>
+               >Edit</el-button>
                <el-button
                        type="text"
                        icon="el-icon-delete"
                        class="red"
                        @click="delMenu(scope.row.menu_id)"
-               >删除</el-button>
+               >Delete</el-button>
                <el-button
                        type="text"
                        icon="el-icon-plus"
                        class="green"
                        @click="addNextNode(scope.row)"
-               >添加下节点</el-button>
+               >Add Next node</el-button>
            </template>
 
        </zk-table>
 
        <div style="margin-right: 800px">
-           <el-dialog title="添加" :modal="false" top="390px" :visible.sync="dialogAddVisible" width="20%" >
+           <el-dialog title="Add" :modal="false" top="390px" :visible.sync="dialogAddVisible" width="20%" >
                <el-form ref="add" :model="menu">
-                   <el-form-item label="资源路径">
+                   <el-form-item label="Resource path">
                        <el-input v-model="menu.menu_index" autocomplete="off"></el-input>
                    </el-form-item>
-                   <el-form-item label="名称">
+                   <el-form-item label="Name">
                        <el-input v-model="menu.menu_name" autocomplete="off"></el-input>
                    </el-form-item>
-                   <el-form-item label="排序">
+                   <el-form-item label="Sort">
                        <el-input v-model="menu.menu_order" autocomplete="off"></el-input>
                    </el-form-item>
                </el-form>
                <div slot="footer" class="dialog-footer">
-                   <el-button @click="">取 消</el-button>
-                   <el-button type="primary" @click="saveMenu">确 定</el-button>
+                   <el-button @click="dialogAddVisible = false">Cancel</el-button>
+                   <el-button type="primary" @click="saveMenu">Sure</el-button>
                </div>
            </el-dialog>
        </div>
        <div style="margin-right: 800px">
-           <el-dialog title="编辑" :modal="false" top="390px" :visible.sync="editDialogAddVisible" width="20%" >
+           <el-dialog title="Edit" :modal="false" top="390px" :visible.sync="editDialogAddVisible" width="20%" >
                <el-form ref="add" :model="edit">
-                   <el-form-item label="资源路径">
+                   <el-form-item label="Resource path">
                        <el-input v-model="edit.menu_index" autocomplete="off"></el-input>
                    </el-form-item>
-                   <el-form-item label="名称">
+                   <el-form-item label="Name">
                        <el-input v-model="edit.menu_name" autocomplete="off"></el-input>
                    </el-form-item>
-                   <el-form-item label="排序">
+                   <el-form-item label="Sort">
                        <el-input v-model="edit.menu_order" autocomplete="off"></el-input>
                    </el-form-item>
                </el-form>
                <div slot="footer" class="dialog-footer">
-                   <el-button @click="">取 消</el-button>
-                   <el-button type="primary" @click="updateMenu">确 定</el-button>
+                   <el-button @click="editDialogAddVisible = false">Cancel</el-button>
+                   <el-button type="primary" @click="updateMenu">Sure</el-button>
                </div>
            </el-dialog>
        </div>
 
        <div style="margin-right: 800px">
-           <el-dialog title="添加" :modal="false" top="390px" :visible.sync="dialogAddVisible2" width="20%" >
+           <el-dialog title="Add" :modal="false" top="390px" :visible.sync="dialogAddVisible2" width="20%" >
                <el-form ref="add" :model="menu">
-                   <el-form-item label="资源路径">
+                   <el-form-item label="Resource path">
                        <el-input v-model="menu.menu_index" autocomplete="off"></el-input>
                    </el-form-item>
-                   <el-form-item label="名称">
+                   <el-form-item label="Name">
                        <el-input v-model="menu.menu_name" autocomplete="off"></el-input>
                    </el-form-item>
-                   <el-form-item label="排序">
+                   <el-form-item label="Sort">
                        <el-input v-model="menu.menu_order" autocomplete="off"></el-input>
                    </el-form-item>
                </el-form>
                <div slot="footer" class="dialog-footer">
-                   <el-button @click="">取 消</el-button>
-                   <el-button type="primary" @click="saveNextMenu">确 定</el-button>
+                   <el-button @click="dialogAddVisible2 = false">Cancel</el-button>
+                   <el-button type="primary" @click="saveNextMenu">Sure</el-button>
                </div>
            </el-dialog>
        </div>
@@ -101,26 +101,26 @@
                 //为table指定列的定义
                 columns: [
                     {
-                        label: '名称',
+                        label: 'Name',
                         prop: 'menu_name',
                         headerAlign: 'center',
                         align: 'center'
                     },
                     {
-                        label: '资源路径',
+                        label: 'Resource path',
                         prop: 'menu_index',
                         headerAlign: 'center',
                         align: 'center'
                     },
                     {
-                        label: '排序',
+                        label: 'Sort',
                         prop: 'menu_order',
                         headerAlign: 'center',
                         align: 'center'
 
                     },
                     {
-                        label: '操作',
+                        label: 'Operation',
                         type: 'template',
                         headerAlign: 'center',
                         template: 'operation'
@@ -144,7 +144,7 @@
                     if (res.code === 200){
                         this.list = res.data;
                     }else {
-                        this.$message.error('菜单数据返回异常')
+                        this.$message.error('Menu data return exception')
                     }
                 })
             },
@@ -160,7 +160,7 @@
                         this.dialogAddVisible2 = false;
                         this.menu = {};
                     }else {
-                        this.$message.error('保存失败')
+                        this.$message.error('Save failed')
                     }
                 })
             },
@@ -175,24 +175,24 @@
                         this.editDialogAddVisible = false;
                         this.edit = {};
                         this.getMenuList();
-                        this.$message.success('更新成功');
+                        this.$message.success('Update succeeded');
                     }else {
-                        this.$message.error('更新失败,我们正在痛打程序员小哥哥')
+                        this.$message.error('Update failed, we are beating programmers')
                     }
                 })
             },
 
             delMenu(id){
-                this.$confirm('您将要删除该菜单信息，是否继续？','提示', {
+                this.$confirm('You are about to delete the menu information. Do you want to continue？','Tips', {
                     type: 'danger'
                 }).then(action =>{
                     if (action === 'confirm'){
                         delMenu(id).then(res =>{
                             if (res.code === 200){
                                 this.getMenuList();
-                                this.$message.success('删除成功');
+                                this.$message.success('Deletion succeeded');
                             }else{
-                                this.$message.error('删除失败');
+                                this.$message.error('Deletion failed');
                             }
                         })
                     }
@@ -212,7 +212,7 @@
                         this.dialogAddVisible = false;
                         this.menu = {};
                     }else {
-                        this.$message.error('保存失败')
+                        this.$message.error('Save failed')
                     }
                 })
             }
