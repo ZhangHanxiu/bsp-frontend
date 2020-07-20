@@ -1,6 +1,5 @@
 <template>
     <div class="login-wrap">
-        <el-scrollbar style="height:100%">
             <div class="ms-login">
                 <div class="ms-title">Register</div>
                 <el-select v-model="type" style="margin-left: 30px;margin-top: 10px">
@@ -111,7 +110,6 @@
                         </div>
                 </el-form>
             </div>
-        </el-scrollbar>
     </div>
 </template>
 
@@ -184,9 +182,6 @@ export default {
 </script>
 
 <style scoped>
-.el-scrollbar__wrap {
-    overflow-x: hidden;
-}
 .login-wrap {
     position: relative;
     margin-top: 0%;
@@ -195,6 +190,7 @@ export default {
     height: 100%;
     background-image: url(../../assets/img/register.jpg);
     background-size: 100%;
+    overflow: scroll;
 }
 .ms-title {
     width: 100%;
@@ -210,11 +206,11 @@ export default {
     left: 43%;
     top: 50%;
     width: 550px;
-    height:100%;
+    height:120%;
     margin: -20% 0 20px -175px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.3);
-    overflow: scroll;
+
 }
 .ms-login2 {
     position: absolute;

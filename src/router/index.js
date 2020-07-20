@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -161,13 +161,13 @@ export default new Router({
         {
             path: '/login',
             component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
-            meta: { title: '登录' },
+            meta: { title: 'Login' },
         },
 
         {
             path: '/register',
             component: () => import(/* webpackChunkName: "home" */ '../components/page/Register'),
-            meta: { title: '自述文件' },
+            meta: { title: 'Register' },
         },
         {
             path: '*',
@@ -177,3 +177,22 @@ export default new Router({
 
     ]
 });
+
+router.beforeEach((to,from,next) =>{
+
+    const role = sessionStorage.getItem('Authorization');
+    console.log(role);
+    if (to.path === '/login' || to.path === '/register') {
+        next()
+    } else {
+        const token = sessionStorage.getItem('Authorization');
+        if (!token) {
+            next('/login')
+        } else {
+            next();
+        }
+    }
+});
+export default router
+
+
