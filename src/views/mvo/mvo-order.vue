@@ -33,7 +33,7 @@
               style="width: 100%">
               <el-table-column label="Title">
                   <template slot-scope="scope">
-                    <el-button type="text" size="small"	@click="toDetail()" disable-transitions>
+                    <el-button type="text" size="small"	@click="toDetail(scope.row.proId)" disable-transitions>
                       {{scope.row.title}}
                     </el-button>
                   </template>
@@ -54,7 +54,7 @@
               style="width: 100%">
             <el-table-column label="Title">
               <template slot-scope="scope">
-                <el-button type="text" size="small" @click="toDetail()" disable-transitions>
+                <el-button type="text" size="small" @click="toDetail(scope.row.proId)" disable-transitions>
                   {{scope.row.title}}
                 </el-button>
               </template>
@@ -80,7 +80,7 @@
               style="width: 100%">
             <el-table-column label="Title">
               <template slot-scope="scope">
-                <el-button type="text" size="small" @click="toDetail()" disable-transitions>
+                <el-button type="text" size="small" @click="toDetail(scope.row.proId)" disable-transitions>
                   {{scope.row.title}}
                 </el-button>
               </template>
@@ -115,7 +115,7 @@
               style="width: 100%">
               <el-table-column label="Title">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="toDetail()" disable-transitions>
+                  <el-button type="text" size="small" @click="toDetail(scope.row.proId)" disable-transitions>
                     {{scope.row.title}}
                   </el-button>
                 </template>
@@ -139,7 +139,7 @@
           <el-table :data="CancelledTableData" tooltip-effect="dark" style="width: 100%">
               <el-table-column label="Title">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="toDetail()" disable-transitions>
+                  <el-button type="text" size="small" @click="toDetail(scope.row.proId)" disable-transitions>
                     {{scope.row.title}}
                   </el-button>
                 </template>
@@ -149,7 +149,7 @@
               <el-table-column prop="sku" label="Sku"></el-table-column>
               <el-table-column prop="orderNo" label="Order No"></el-table-column>
               <el-table-column prop="createdTime" label="Create Time"></el-table-column>
-            
+
             </el-table>
           </el-tab-pane>
       </el-tabs>
@@ -174,29 +174,30 @@
           </el-table-column>
         </el-table>
         <br/>
-				<el-card class="box-card">
-					<div slot="header" class="clearfix">
-						<span style="color:#339966;font-size:18px;margin-left:15px;">Item Description</span>
-					</div>
-					<div style="padding: 12px;">{{product[0].description}}</div>
-				</el-card>
-
+			<el-card class="box-card">
+               <div slot="header" class="clearfix">
+                   <span style="color:#339966;font-size:18px;margin-left:15px;">Item Description</span>
+               </div>
+               <div v-for="item in product" :key="item" >
+                    {{item.description}}
+               </div>
+			</el-card>
       </el-dialog>
 
 
     <!-- 添加弹出框 -->
-    <el-dialog title="添加物流信息" :visible.sync="addVisible" width="33%" >
+    <el-dialog title="Add logistics information" :visible.sync="addVisible" width="33%" >
       <el-form ref="form" :model="order"   label-width="100px">
-        <el-form-item label="快递单号" prop="roleName">
+        <el-form-item label="Courier Number" prop="roleName">
           <el-input v-model="order.trackingNo"></el-input>
         </el-form-item>
-        <el-form-item label="快递公司">
+        <el-form-item label="Courier Services Company">
           <el-input v-model="order.wspName"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-                <el-button @click="">取 消</el-button>
-                <el-button type="primary" @click="ship()">确 定</el-button>
+                <el-button @click="addVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="ship()">Sure</el-button>
             </span>
     </el-dialog>
 
@@ -234,6 +235,7 @@
   import { getCompletedOrder } from '../../api/mvo';
   import { getCancelledOrder } from '../../api/mvo';
   import { editOrderSts } from '../../api/mvo';
+  import {productDetail} from "../../api/bvo";
 
 export default {
   name: 'Tab',
@@ -260,15 +262,15 @@ export default {
       addVisible:false,
 			//商品详情
       product: [
-        {
-          imgPath: 'https://img.alicdn.com/imgextra/i1/2200731938403/O1CN01qNHAwk2BwcfVUVp4z_!!0-item_pic.jpg_430x430q90.jpg',
-          name:"Glass Housing Multi-purpose 12L Portable Convection Oven",
-          price: '$300',
-          sku:'GM08713',
-          brand:"GMY",
-					stock:32,
-					description:"Raw denim you probably haven't heard of them jean shorts Austin."
-        }
+        // {
+        //   imgPath: 'https://img.alicdn.com/imgextra/i1/2200731938403/O1CN01qNHAwk2BwcfVUVp4z_!!0-item_pic.jpg_430x430q90.jpg',
+        //   name:"Glass Housing Multi-purpose 12L Portable Convection Oven",
+        //   price: '$300',
+        //   sku:'GM08713',
+        //   brand:"GMY",
+		//   stock:32,
+		//   description:"Raw denim you probably haven't heard of them jean shorts Austin."
+        // }
       ],
       detail:false,
       logistics:false,
@@ -342,7 +344,15 @@ export default {
       });
     },
 
-    toDetail() {
+    toDetail(id){
+      console.log(id);
+      productDetail(id).then(res =>{
+        if (res.code === 0){
+          this.product = [res.data];
+        }else {
+          this.$message.error('Details data echo abnormal!')
+        }
+      });
       this.detail = true;
     },
     toShip(i) {

@@ -3,9 +3,9 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          品牌商MVO
+          MVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right" /> 公司信息 Company Information
+            <i class="el-icon-d-arrow-right" /> Company Information
           </small>
         </h1>
       </div>
@@ -13,7 +13,7 @@
 
     <el-main>
       <span>
-        公司信息：
+        Company Information：
       </span>
       <br>
       <br>
@@ -25,7 +25,7 @@
         <el-table-column prop="description" label="description" />
         <el-table-column label="operation">
           <template slot-scope="scope">
-            <el-button type="success" icon="el-icon-edit" size="mini" to="/mvo/mvo-myInfo" @click="editcompany(scope.row)" />
+            <el-button type="success" plain icon="el-icon-edit" size="mini" to="/mvo/mvo-myInfo" @click="editcompany(scope.row)" />
           </template>
         </el-table-column>
 
@@ -33,22 +33,22 @@
       <br>
       <br>
       <span>
-        品牌信息：
+        Brand Information：
       </span>
       <br>
       <br>
       <el-table :data="brandInfo" style="width: 100%" highlight-current-row @selection-change="handleSelectionChange">
         <el-table-column type="selection" align="center" />
         <el-table-column prop="brd_id" v-if="false" />
-        <el-table-column prop="name_en" label="品牌名称Brand Name" />
-        <el-table-column prop="url" label="品牌图片Brand Logo">
+        <el-table-column prop="name_en" label="Brand Name" />
+        <el-table-column prop="url" label="Brand Logo">
           <template slot-scope="scope">
             <img :src="scope.row.url" alt="" style="width: 150px;height: 150px">
           </template>
         </el-table-column>
         <el-table-column label="operation">
           <template slot-scope="scope">
-            <el-button type="success" icon="el-icon-edit" size="mini" @click="editbrand(scope.$index)" />
+            <el-button type="success" plain icon="el-icon-edit" size="mini" @click="editbrand(scope.$index)" />
             <el-button type="danger" plain icon="el-icon-delete" size="mini" @click="deletebrand(scope.$index)" />
           </template>
         </el-table-column>
@@ -285,7 +285,7 @@
           if (res.code === 200) {
             this.companyInfo = [res.data]
           } else {
-            this.$message.error('数据回显异常')
+            this.$message.error('Abnormal data echo')
           }
         })
       },
@@ -308,14 +308,14 @@
             saveCompanyEdit(this.editcompanyInfo).then(res => {
               if (res.code === 200) {
                 this.changeCompanyinfo = false
-                this.$message.success('更新成功')
+                this.$message.success('Update succeeded')
               } else {
-                this.$message.error('更新失败')
+                this.$message.error('Update failed')
               }
             })
           } else {
             console.log('error submit!!')
-            alert('请正确填写信息!!')
+            alert('Please enter the correct information!!')
             return false
           }
         })

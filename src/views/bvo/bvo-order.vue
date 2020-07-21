@@ -59,7 +59,7 @@
 							style="width: 100%">
 						<el-table-column label="Title">
 							<template slot-scope="scope">
-								<el-button type="text" size="small" @click="toDetail()" disable-transitions>
+								<el-button type="text" size="small" @click="toDetail(scope.row.proId)" disable-transitions>
 									{{scope.row.title}}
 								</el-button>
 							</template>
@@ -80,7 +80,7 @@
 							style="width: 100%">
 						<el-table-column label="Title">
 							<template slot-scope="scope">
-								<el-button type="text" size="small" @click="toDetail()" disable-transitions>
+								<el-button type="text" size="small" @click="toDetail(scope.row.proId)" disable-transitions>
 									{{scope.row.title}}
 								</el-button>
 							</template>
@@ -110,7 +110,7 @@
 							style="width: 100%">
 							<el-table-column label="Title">
 								<template slot-scope="scope">
-									<el-button type="text" size="small" @click="toDetail()" disable-transitions>
+									<el-button type="text" size="small" @click="toDetail(scope.row.proId)" disable-transitions>
 										{{scope.row.title}}
 									</el-button>
 								</template>
@@ -173,11 +173,13 @@
         </el-table>
         <br/>
         <el-card class="box-card">
-					<div slot="header" class="clearfix">
-						<span style="color:#339966;font-size:18px;margin-left:15px;">Item Description</span>
-					</div>
-					<div style="padding: 12px;">{{product.description}}</div>
-				</el-card>
+			<div slot="header" class="clearfix">
+				<span style="color:#339966;font-size:18px;margin-left:15px;">Item Description</span>
+			</div>
+			<div v-for="item in product" :key="item" >
+				{{item.description}}
+			</div>
+		</el-card>
       </el-dialog>
 
 		<!-- !!!!!物流跟踪!!!!!!! -->
@@ -238,7 +240,7 @@
 		getCompletedOrder,
 		getShippedOrder, productDetail,pay
 	} from '../../api/bvo';
-	import { loginWallet, getAccountBalance, getIdByName } from '../../api/wallet';
+	import { loginWallet, getAccountBalance} from '../../api/wallet';
 
 export default {
   name: 'Tab',
@@ -372,7 +374,7 @@ export default {
 	},
 	paynow(i) {
 		const w_token = sessionStorage.getItem('w-Authorization');
-		
+
 		if(!w_token){
 			this.wallet = true;
 		}else{
@@ -395,7 +397,7 @@ export default {
 						if (res.code == '0') {
 							this.$message.success('Payment successful!');
 							this.getOrder();
-				
+
 						} else {
 							this.$message.error("System error, payment fail");
 						}
@@ -403,7 +405,7 @@ export default {
         		})
 			}
 			//this.$message.alert('Are you sure to pay '+amount+'?');
-			
+
 		}
 	},
 	walletlogin(formname){
@@ -425,8 +427,8 @@ export default {
 						// 		localStorage.setItem('fund',res.data);
 						// 	}
 						// )
-						localStorage.setItem("buyerid",res.data.buyer_id);		
-						localStorage.setItem("fund",res.data.available_money);							
+						localStorage.setItem("buyerid",res.data.buyer_id);
+						localStorage.setItem("fund",res.data.available_money);
 						sessionStorage.setItem('w-Authorization',res.token);
 						this.wallet = false;
 						//this.pay = true;
@@ -456,7 +458,7 @@ export default {
 	// 						localStorage.setItem('accountName', res.data.account_name);
 	// 						localStorage.setItem('buyerid', res.data.buyer_id);
 	// 						sessionStorage.setItem('w-Authorization',res.token);
-							
+
 	// 						//this.$router.push('/bvo-interface' + res.data.buyer_id);
 	// 					} else {
 	// 						this.$message.error('Login failed, username or password is wrong, please log in again!')

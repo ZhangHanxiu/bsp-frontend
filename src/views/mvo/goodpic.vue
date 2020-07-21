@@ -3,9 +3,9 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          品牌商MVO
+          MVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> 商品主图&分类
+            <i class="el-icon-d-arrow-right"></i> Commodity master chart &amp; classification
           </small>
         </h1>
       </div>
@@ -13,7 +13,7 @@
 
     <el-main>
       <span>
-      商品标题title：
+      Title：
       <el-input style="width:200px" placeholder @input="search" v-model="search_username"></el-input>
       </span>
       <el-button type="success" icon="el-icon-search"></el-button>
@@ -25,18 +25,18 @@
       <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" align="center" />
         <el-table-column prop="proId" v-if="false" />
-        <el-table-column prop="title" label="商品标题"></el-table-column>
-        <el-table-column prop="category_name" label="类别"></el-table-column>
-        <el-table-column prop="ufl" label="图片">
+        <el-table-column prop="title" label="Product title"></el-table-column>
+        <el-table-column prop="category_name" label="Category"></el-table-column>
+        <el-table-column prop="ufl" label="Picture">
           <template slot-scope="scope">
             <img  :src="scope.row.url" alt="" style="width: 150px;height: 150px">
           </template>
         </el-table-column>
-        <el-table-column prop="sts_cd" label="状态">
+        <el-table-column prop="sts_cd" label="Status">
           <template slot-scope="scope">
-          <p v-if="scope.row.sts_cd === '1'">待入库</p>
-          <p v-if="scope.row.sts_cd === '2'">待上架</p>
-          <p v-if="scope.row.sts_cd === '3'">上架中</p>
+          <p v-if="scope.row.sts_cd === '1'">To be put into storage</p>
+          <p v-if="scope.row.sts_cd === '2'">To be put on the shelf</p>
+          <p v-if="scope.row.sts_cd === '3'">On the shelf</p>
           </template>
         </el-table-column>
 
@@ -49,21 +49,21 @@
               <el-button type="success" plain icon="el-icon-delete" size="mini" @click="deletepic(scope.$index)"></el-button>
             </el-tooltip>
             <el-button v-if="scope.row.sts_cd=='2'" size="mini" type="success" @click="handleModifyStatus(scope.$index,'3')">
-              上架
+              ON
             </el-button>
             <el-button v-if="scope.row.sts_cd=='3'" size="mini" @click="handleModifyStatus(scope.$index,'2')">
-              下架
+              OFF
             </el-button>
             <el-button v-if="scope.row.sts_cd=='1'" size="mini" @click="handleModifyStatus(scope.$index,'2')">
-              入仓
-            </el-button>            
+              IN
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-main>
-    
+
     <!-- 添加！！！！！！ -->
-<!--    <el-dialog title="添加商品信息" :visible.sync="toaddpic" width="60%">-->
+<!--    <el-dialog title="Add product information" :visible.sync="toaddpic" width="60%">-->
 <!--      <el-form :model="newpic" :rules="rules" ref="newpic" label-width="auto" class="demo-ruleForm" text-align="center" >-->
 <!--          <el-form-item label="Product name" prop="title">-->
 <!--            <el-select v-model="newpic.title">-->
@@ -128,8 +128,8 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <span class="text">请先选择GMC借卖平台商品大类，此分类决定了您的商品在借卖平台中展示的位置</span>
-          <el-form-item label="商品分类" prop="category_name">
+          <span class="text">Please select the commodity category of GMC first.</span>
+          <el-form-item label="Category" prop="category_name">
             <el-select v-model="editpicInfo.category_name">
               <el-option
                 v-for="item in options"
@@ -187,42 +187,42 @@ export default {
         /*{
           title: "MP3",
           category_name:"电子产品",
-          picture:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2071684813,1084763777&fm=26&gp=0.jpg", 
-          sts_cd: "待上架" 
-        },
-        { 
-          title: "电饭锅",
-          category_name:"电器",
-          picture:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3077643480,3270535916&fm=26&gp=0.jpg", 
-          sts_cd: "上架" 
-        },
-        { 
-          title: "耳机",
-          category_name:"电子产品",
-          picture:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3936480169,2097530407&fm=26&gp=0.jpg", 
+          picture:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2071684813,1084763777&fm=26&gp=0.jpg",
           sts_cd: "待上架"
         },
-        { 
+        {
+          title: "电饭锅",
+          category_name:"电器",
+          picture:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3077643480,3270535916&fm=26&gp=0.jpg",
+          sts_cd: "上架"
+        },
+        {
+          title: "耳机",
+          category_name:"电子产品",
+          picture:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3936480169,2097530407&fm=26&gp=0.jpg",
+          sts_cd: "待上架"
+        },
+        {
           title: "MP3",
           category_name:"电子产品",
-          picture:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2071684813,1084763777&fm=26&gp=0.jpg", 
-          sts_cd: "待入仓" 
+          picture:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2071684813,1084763777&fm=26&gp=0.jpg",
+          sts_cd: "待入仓"
         },*/
       ],
-      goods:[
-        {
-          value: '1111',
-          label: '1111'
-        },
-        {
-          value: '2222',
-          label: '2222'
-        },
-        {
-          value: '3333',
-          label: '3333'
-        },
-      ],
+      // goods:[
+      //   {
+      //     value: '1111',
+      //     label: '1111'
+      //   },
+      //   {
+      //     value: '2222',
+      //     label: '2222'
+      //   },
+      //   {
+      //     value: '3333',
+      //     label: '3333'
+      //   },
+      // ],
       options: [{
           value: '日配加工食品',
           label: '日配加工食品'
@@ -271,11 +271,11 @@ export default {
       },
       rules: {
           title: [
-            { required: true, message: '请选择商品', trigger: 'change' }
+            { required: true, message: 'Please select product', trigger: 'change' }
           ],
           category_name: [
-            { required: true, message: '请选择商品类别', trigger: 'change' }
-          ],         
+            { required: true, message: 'Please select product category', trigger: 'change' }
+          ],
       },
     };
   },
@@ -433,7 +433,7 @@ export default {
               this.tableData = []
               this.getProductDetail()
               this.$message({
-                message: '修改成功',
+                message: 'Modification succeeded',
                 type: 'success'
               })
             }
@@ -441,7 +441,7 @@ export default {
         }
         else {
           console.log('error submit!!')
-          alert('请正确填写信息!!')
+          alert('Please fill in the information correctly!!')
           return false
         }
       })
@@ -472,7 +472,7 @@ export default {
       alterProductDetail(productDetailVo, userId).then(res => {
         if(res.code==200){
           this.$message({
-            message: '操作Success',
+            message: 'Successful operation',
             type: 'success'
           });
           this.tableData[i].sts_cd = sts_cd
@@ -492,12 +492,12 @@ export default {
       this.multipleSelection = val
     },
     deleteall(){
-      
+
     },
     deletepic(i) {
-        this.$confirm('是否确认删除该商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure you want to delete this item?', 'Tips', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           var productDetailVo = {
@@ -519,7 +519,7 @@ export default {
               this.getProductDetail()
               this.$message({
                 type: 'success',
-                message: '删除成功!'
+                message: 'Delete succeeded!'
               });
             }
           }
@@ -528,14 +528,14 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
-          });          
+            message: 'Deletion cancelled'
+          });
         });
     },
     deleteAll(){
-        this.$confirm('是否确认删除这些商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure you want to delete these items?', 'Tips', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           this.multipleSelection.forEach((item) => {
@@ -562,7 +562,7 @@ export default {
                 this.multipleSelection = [];
                 this.$message({
                   type: 'success',
-                  message: '删除成功!'
+                  message: 'Delete succeeded!'
                 });
               }
             }
@@ -571,8 +571,8 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
-          });          
+            message: 'Deletion cancelled'
+          });
         });
     },
   }

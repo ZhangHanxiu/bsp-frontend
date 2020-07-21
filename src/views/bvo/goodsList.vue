@@ -55,11 +55,13 @@
         </el-table>
         <br/>
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
-						<span style="color:#339966;font-size:18px;margin-left:15px;">Item Description</span>
-					</div>
-					<div style="padding: 12px;">{{product.description}}</div>
-				</el-card>
+            <div slot="header" class="clearfix">
+               <span style="color:#339966;font-size:18px;margin-left:15px;">Item Description</span>
+            </div>
+            <div v-for="item in product" :key="item" class="text item">
+                {{item.description}}
+            </div>
+		</el-card>
       </el-dialog>
 
       <!-- Selete stores!!!!! -->
@@ -71,19 +73,16 @@
           <el-form  label-width="80px" label-position="top">
             <el-form-item label="Amazon">
               <el-checkbox-group v-model="checkedStores" >
-                <el-checkbox v-for="item in amazon" :label="item.storeName" :key="item.storeName">{{item.storeName}}</el-checkbox>
+                <el-checkbox v-for="item in amazon" :label="item.strId" :key="item.storeName">{{item.storeName}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
             <el-form-item label="eBay">
               <el-checkbox-group v-model="checkedStores" >
-                <el-checkbox v-for="item in ebay" :label="item.storeName" :key="item.storeName">{{item.storeName}}</el-checkbox>
+                <el-checkbox v-for="item in ebay" :label="item.strId" :key="item.storeName">{{item.storeName}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
           </el-form>
             <div style="text-align: right">
-
-              <p>{{checkedStores}}</p>
-
               <el-button class="pan-btn tiffany-btn" @click="addinStore = false">Cancel</el-button>
               <el-button class="pan-btn tiffany-btn" :disabled="checkedStores.length == 0" @click="addinStore = false">Push</el-button>
             </div>
@@ -93,7 +92,7 @@
 </template>
 
 <script>
-    import { addToWish, getProduct, productDetail } from '../../api/bvo';
+    import { addToWish, getProduct, productDetail ,getStoreInfo} from '../../api/bvo';
     import { delMenu } from '../../api/menu';
 
 export default {
@@ -106,41 +105,43 @@ export default {
       product: [],
       products: [],
       mystores:[
-              {
-                plataeformType:'1',
-                storeName:'Amazon1',
-                dsrId:1,
-                strId:1
-              },{
-                plataeformType:'2',
-                storeName:'ebay1',
-                dsrId:1,
-                strId:2
-              },{
-                plataeformType:'1',
-                storeName:'Amazon2',
-                dsrId:1,
-                strId:3
-              },{
-                plataeformType:'2',
-                storeName:'ebay2',
-                dsrId:1,
-                strId:4
-              },{
-                plataeformType:'1',
-                storeName:'Amazon3',
-                dsrId:1,
-                strId:5
-              },{
-                plataeformType:'2',
-                storeName:'ebay3',
-                dsrId:1,
-                strId:6
-              }],
+              // {
+              //   plataeformType:'1',
+              //   storeName:'Amazon1',
+              //   dsrId:1,
+              //   strId:1
+              // },{
+              //   plataeformType:'2',
+              //   storeName:'ebay1',
+              //   dsrId:1,
+              //   strId:2
+              // },{
+              //   plataeformType:'1',
+              //   storeName:'Amazon2',
+              //   dsrId:1,
+              //   strId:3
+              // },{
+              //   plataeformType:'2',
+              //   storeName:'ebay2',
+              //   dsrId:1,
+              //   strId:4
+              // },{
+              //   plataeformType:'1',
+              //   storeName:'Amazon3',
+              //   dsrId:1,
+              //   strId:5
+              // },{
+              //   plataeformType:'2',
+              //   storeName:'ebay3',
+              //   dsrId:1,
+              //   strId:6
+              // }
+        ],
     }
   },
   created() {
       this.getProduct();
+      this.getStoreInfo();
   },
 
     computed: {
@@ -164,7 +165,13 @@ export default {
           }
       })
     },
-
+      getStoreInfo(){
+          getStoreInfo().then( res =>{
+              if (res.code === 0){
+                  this.mystores = res.data;
+              }
+          })
+      },
       openDetail(id){
         this.detail = true;
         this.detailProduct.proId = id;
@@ -200,9 +207,11 @@ export default {
         })
     },
     push(){
-      addinStore = false;
-      console.log(this.checkedStores);
+      this.addinStore = false;
+      // console.log(this.checkedStores);
+      this.$message.success('Succeeded in pushing');
       this.checkedStores=[]
+
     }
   }
 }

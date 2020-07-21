@@ -3,23 +3,23 @@ import request from '../utils/request'
 
 export const getBvoInfo = query => {
     return request({
-        url: '/bvo/info/'+localStorage.getItem('dsrId'),
+        url: '/bvo/info/'+localStorage.getItem('userId'),
         method: 'get',
-        params: query
+        // params: query
     });
 };
 
 export const getStoreInfo = query => {
     return request({
-        url: '/bvo/store/'+localStorage.getItem('dsrId'),
+        url: '/bvo/store/'+localStorage.getItem('userId'),
         method: 'get',
-        params: query
+        // params: query
     });
 };
 
 export const editMyInfo = data => {
     return request({
-        url: '/bvo/updateInfo/'+localStorage.getItem('dsrId'),
+        url: '/bvo/updateInfo/'+localStorage.getItem('userId'),
         method: 'put',
         contentType:"application/json;charset=utf-8",
         // data:JSON.stringify(query),
@@ -92,7 +92,7 @@ export const  addToWish = prodId => {
 
 export const  deleteWish = ids => {
     return request({
-        url: '/bvo/deleteWits/'+ids,
+        url: '/bvo/deleteWits/'+localStorage.getItem('userId')+'/'+ids,
         method: 'delete',
     });
 };

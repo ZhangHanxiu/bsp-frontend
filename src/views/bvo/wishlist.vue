@@ -22,7 +22,7 @@
           </template>
         </el-table-column>
         <el-table-column min-width="72%">
-          <el-link :underline="false" slot-scope="scope" @click="detail = true">
+          <el-link :underline="false" slot-scope="scope" @click="openDetail(scope.row.proId)">
             <p>{{scope.row.name}}</p>
             <span class="red">{{scope.row.price}}</span>
             <p>sku:{{scope.row.sku}}</p>
@@ -31,7 +31,7 @@
       </el-table>
     </el-main>
     <!-- 商品详情!!!! -->
-    <el-dialog title="商品详情" :visible.sync="detail" width="50%">
+    <el-dialog title="Product Details" :visible.sync="detail" width="50%">
         <el-table :data="product" show-header="false" style="width: 100%" >
           <el-table-column prop="imgPath" min-width="30%">
             <template slot-scope="scope">
@@ -51,13 +51,14 @@
         </el-table>
         <br/>
         <br/>
-        <span style="color:#339966;font-size:18px;margin-left:15px;">Item Description</span>
-        <br/>
-        <br/>
-        <el-tabs type="border-card">
-          <el-tab-pane label="eBay Description">Raw denim you probably haven't heard of them jean shorts Austin.</el-tab-pane>
-          <el-tab-pane label="Amazon Description">Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</el-tab-pane>
-        </el-tabs>
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span style="color:#339966;font-size:18px;margin-left:15px;">Item Description</span>
+            </div>
+            <div v-for="item in product" :key="item" class="text item">
+                {{item.description}}
+            </div>
+        </el-card>
       </el-dialog>
 
       <!-- Selete stores!!!!! -->
@@ -69,12 +70,12 @@
           <el-form  label-width="80px" label-position="top">
             <el-form-item label="Amazon">
               <el-checkbox-group v-model="checkedStores" >
-                <el-checkbox v-for="(item,index) in amazon" :label="item.storeName" :key="index">{{item.storeName}}</el-checkbox>
+                <el-checkbox v-for="(item,index) in amazon" :label="item.strId" :key="index">{{item.storeName}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
             <el-form-item label="eBay">
               <el-checkbox-group v-model="checkedStores" >
-                <el-checkbox v-for="(item,index) in ebay" :label="item.storeName" :key="index">{{item.storeName}}</el-checkbox>
+                <el-checkbox v-for="(item,index) in ebay" :label="item.strId" :key="index">{{item.storeName}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
           </el-form>
@@ -88,7 +89,7 @@
 </template>
 
 <script>
-    import { addToWish, deleteWish, getProduct, getWish } from '../../api/bvo';
+    import {addToWish, deleteWish, getProduct, getWish, productDetail,getStoreInfo} from '../../api/bvo';
 
 export default {
   data() {
@@ -97,48 +98,51 @@ export default {
       addinStore:false,
       checkedStores:[],
         delList:[],
+      detailProduct:{},
       product: [
-        {
-          imgPath: 'https://img.alicdn.com/imgextra/i1/2200731938403/O1CN01qNHAwk2BwcfVUVp4z_!!0-item_pic.jpg_430x430q90.jpg',
-          name:"Glass Housing Multi-purpose 12L Portable Convection Oven",
-          price: '$300',
-          sku:'GM08713',
-          brand:"GMY",
-          stock:32,
-        }
+        // {
+        //   imgPath: 'https://img.alicdn.com/imgextra/i1/2200731938403/O1CN01qNHAwk2BwcfVUVp4z_!!0-item_pic.jpg_430x430q90.jpg',
+        //   name:"Glass Housing Multi-purpose 12L Portable Convection Oven",
+        //   price: '$300',
+        //   sku:'GM08713',
+        //   brand:"GMY",
+        //   stock:32,
+        // }
       ],
       wishlist: [],
       mystores:[
-              {
-                plataeformType:'1',
-                storeName:'Amazon1',
-                sellerId:1
-              },{
-                plataeformType:'2',
-                storeName:'ebay1',
-                sellerId:1
-              },{
-                plataeformType:'1',
-                storeName:'Amazon2',
-                sellerId:1
-              },{
-                plataeformType:'2',
-                storeName:'ebay2',
-                sellerId:1
-              },{
-                plataeformType:'1',
-                storeName:'Amazon3',
-                sellerId:1
-              },{
-                plataeformType:'2',
-                storeName:'ebay3',
-                sellerId:1
-              }],
+              // {
+              //   plataeformType:'1',
+              //   storeName:'Amazon1',
+              //   sellerId:1
+              // },{
+              //   plataeformType:'2',
+              //   storeName:'ebay1',
+              //   sellerId:1
+              // },{
+              //   plataeformType:'1',
+              //   storeName:'Amazon2',
+              //   sellerId:1
+              // },{
+              //   plataeformType:'2',
+              //   storeName:'ebay2',
+              //   sellerId:1
+              // },{
+              //   plataeformType:'1',
+              //   storeName:'Amazon3',
+              //   sellerId:1
+              // },{
+              //   plataeformType:'2',
+              //   storeName:'ebay3',
+              //   sellerId:1
+              // }
+          ],
       multipleSelection: [],
     }
   },
   created() {
       this.getWish();
+      this.getStoreInfo();
   },
     computed: {
     amazon() {
@@ -162,7 +166,13 @@ export default {
             }
         })
       },
-
+         getStoreInfo(){
+             getStoreInfo().then( res =>{
+                 if (res.code === 0){
+                     this.mystores = res.data;
+                 }
+             })
+         },
     handleSelectionChange(val){
       this.multipleSelection = val
     },
@@ -170,6 +180,15 @@ export default {
       this.addinStore = true,
       this.detail = false
     },
+         openDetail(id){
+             this.detail = true;
+             this.detailProduct.proId = id;
+             productDetail(id).then(res =>{
+                 if (res.code === 0){
+                     this.product = [res.data];
+                 }
+             })
+         },
 
          deletewish(){
              let length = this.multipleSelection.length;
@@ -191,7 +210,7 @@ export default {
                      }else{
                          this.multipleSelection = [];
                          this.delList = [];
-                         this.$message.error('Successfully deleted');
+                         this.$message.error('Deletion failed');
                      }
                  })
              })

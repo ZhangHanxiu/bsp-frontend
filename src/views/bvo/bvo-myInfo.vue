@@ -91,43 +91,68 @@
 
       <!-- Add a new store!!!!!!!!!! -->
       <el-dialog title="Add a new store" :visible.sync="toAdd" width="40%">
-        <span></span>
-          <div style="margin:0 auto;text-align:left;" >
-            <span></span>
-            <span>Set up API connection with your store by account authorisation</span><br/>
-            <br />
-            <br />
-            <el-select v-model="newstore.plateformType" placeholder="Choose a store" style="width:150px">
+        <el-form :model="newstore" :rules="storeRules" ref="newstore" label-width="auto" class="demo-ruleForm">
+          <span>Set up API connection with your store by account authorisation</span>
+          <span></span>
+          <el-form-item label="Plataeform" prop="plataeformType">
+            <el-select v-model="newstore.plataeformType" placeholder="Choose a store" style="width:150px">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
               </el-option>
             </el-select>
-          </div>
-          <br/>
-          <div style="margin:0 auto;text-align:left;">
-            <span></span>
-            <br/>
-            <div  class="demo-input-suffix">
-              <label style="width: 120px;margin-top:7px;font-size:16px" class="control-label">Store name</label><br>
-              <el-input style="width:300px" placeholder v-model="newstore.storeName"></el-input>
-            </div>
-            <br/>
-            <br/>
-            <div  class="demo-input-suffix">
-              <label style="width: 120px;margin-top:7px;font-size:16px" class="control-label">Seller ID</label><br>
-              <el-input style="width:300px" v-model="newstore.dsrId"></el-input>
-            </div>
-          </div>
-          <br />
-          <br />
-          <br />
-          <span slot="footer" class="dialog-footer">
+          </el-form-item>
+          <el-form-item label="Store Name" prop="storeName">
+            <el-input style="width:300px" placeholder v-model="newstore.storeName"></el-input>
+          </el-form-item>
+          <el-form-item label="Seller ID" prop="dsrId">
+            <el-input style="width:300px" v-model="newstore.dsrId"></el-input>
+          </el-form-item>
+          <el-form-item style="text-align:center">
             <el-button class="pan-btn blue-btn" @click="toAdd = false">Cancel</el-button>
-            <el-button class="pan-btn tiffany-btn" @click="addstore()">Add</el-button>
-          </span>
+            <el-button class="pan-btn tiffany-btn" @click="addstore('newstore')">Add</el-button>
+          </el-form-item>
+        </el-form>
+
+<!--        <span></span>-->
+<!--          <div style="margin:0 auto;text-align:left;" >-->
+<!--            <span></span>-->
+<!--            <span>Set up API connection with your store by account authorisation</span><br/>-->
+<!--            <br />-->
+<!--            <br />-->
+<!--            <el-select v-model="newstore.plateformType" placeholder="Choose a store" style="width:150px">-->
+<!--              <el-option-->
+<!--                v-for="item in options"-->
+<!--                :key="item.value"-->
+<!--                :label="item.label"-->
+<!--                :value="item.value">-->
+<!--              </el-option>-->
+<!--            </el-select>-->
+<!--          </div>-->
+<!--          <br/>-->
+<!--          <div style="margin:0 auto;text-align:left;">-->
+<!--            <span></span>-->
+<!--            <br/>-->
+<!--            <div  class="demo-input-suffix">-->
+<!--              <label style="width: 120px;margin-top:7px;font-size:16px" class="control-label">Store name</label><br>-->
+<!--              <el-input style="width:300px" placeholder v-model="newstore.storeName"></el-input>-->
+<!--            </div>-->
+<!--            <br/>-->
+<!--            <br/>-->
+<!--            <div  class="demo-input-suffix">-->
+<!--              <label style="width: 120px;margin-top:7px;font-size:16px" class="control-label">Seller ID</label><br>-->
+<!--              <el-input style="width:300px" v-model="newstore.dsrId"></el-input>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <br />-->
+<!--          <br />-->
+<!--          <br />-->
+<!--          <span slot="footer" class="dialog-footer">-->
+<!--            <el-button class="pan-btn blue-btn" @click="toAdd = false">Cancel</el-button>-->
+<!--            <el-button class="pan-btn tiffany-btn" @click="addstore()">Add</el-button>-->
+<!--          </span>-->
           <!-- <div style="float:right">
             <el-button class="pan-btn blue-btn">Empty</el-button>
             <el-button class="pan-btn tiffany-btn">Add</el-button>
@@ -144,6 +169,19 @@
 
     export default {
         data(){
+          var isEmail = (rule, value, callback) => {
+            if (!value) {
+              callback();
+            } else {
+              const reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+              const email = reg.test(value);
+              if (!email) {
+                callback(new Error("Format like:admin@163.com"));
+              } else {
+                callback();
+              }
+            }
+          };
           return{
             toAdd:false,
             myInfo:{
@@ -163,11 +201,20 @@
               ],
               email: [
                   { required: true, message: 'Can not be empty', trigger: 'blur' },
-                  { min: 3, max: 10, message: 'Must be 3-20 characters', trigger: 'blur' }
+                  { validator: isEmail, trigger: "blur" }
               ],
               phone: [
                   { required: true, message: 'Can not be empty', trigger: 'blur' },
-                  { min: 3, max: 10, message: 'Must be 3-20 characters', trigger: 'blur' }
+                  { min: 3, max: 13, message: 'Must be 3-13 characters', trigger: 'blur' }
+              ],
+            },
+            storeRules:{
+              storeName: [
+                { required: true, message: 'Can not be empty', trigger: 'blur' },
+                { min: 3, max: 10, message: 'Must be 3-10 characters', trigger: 'blur' }
+              ],
+              plataeformType: [
+                { required: true, message: 'Please select a platform', trigger: 'change' }
               ],
             },
             toedit:false,
@@ -184,7 +231,7 @@
             value:'',
             newstore:{
               storeName:'',
-              dsrId:0,
+              dsrId:'',
               plateformType:'',
             }
           }
@@ -240,20 +287,27 @@
           });
 
           },
-          addstore() {
-            addStore(this.newstore).then(res =>{
-              if (res.code === 0){
-                getStoreInfo().then(res =>{
-                  if (res.code === 1){
-                    this.mystores = res.data;
+          addstore(formName) {
+            this.$refs[formName].validate((valid) => {
+              if (valid) {
+                addStore(this.newstore).then(res =>{
+                  if (res.code === 0){
+                    getStoreInfo().then(res =>{
+                      if (res.code === 1){
+                        this.mystores = res.data;
+                      }
+                    })
+                    this.toAdd = false;
+                    this.$message.success('Added successfully');
+                  }else {
+                    this.$message.error('Add failed')
                   }
                 })
-                this.toAdd = false;
-                this.$message.success('Added successfully');
               }else {
-                this.$message.error('Add failed')
+                this.$message.error('Please enter the correct information!!')
               }
-            })
+            });
+
           }
         }
     }

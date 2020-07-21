@@ -3,9 +3,9 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          品牌商MVO
+          MVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> 商品录入
+            <i class="el-icon-d-arrow-right"></i> Goods Input
           </small>
         </h1>
       </div>
@@ -13,7 +13,7 @@
 
     <el-main>
       <span>
-      商品标题name：
+      Title：
       <el-input style="width:200px" placeholder @input="search" v-model="search"></el-input>
       </span>
       <el-button type="primary" icon="el-icon-search" @click="searchgood()"></el-button>
@@ -46,7 +46,7 @@
     <!-- edit goods -->
     <el-dialog title="Edit" :visible.sync="edit" width="45%">
       <el-form :model="editgood" :rules="rules" ref="editgood" label-width="auto" class="demo-ruleForm" text-align="center">
-          <span class="text">商品标题中包含搜索关键字，品牌名，颜色，大小，型号</span>
+          <span class="text">Product title contains search keywords, brand name, color, size, model</span>
           <el-form-item label="Product name" prop="title">
             <el-input v-model="editgood.title"></el-input>
           </el-form-item>
@@ -59,7 +59,7 @@
           <el-form-item label="EAN" prop="ean">
             <el-input v-model="editgood.ean"></el-input>
           </el-form-item>
-          <el-form-item label="体积重">
+          <el-form-item label="Volume weight">
             <el-col :span="11">
               <el-form-item label="Length" prop="length" size="mini">
                 <el-input v-model="editgood.length"></el-input>
@@ -106,22 +106,21 @@
     <!-- Add goods -->
     <el-dialog title="Add" :visible.sync="add" width="45%">
       <el-form :model="newgood" :rules="rules" ref="newgood" label-width="auto" class="demo-ruleForm" text-align="center">
-          <span class="text">商品标题中包含搜索关键字，品牌名，颜色，大小，型号</span>
+          <span class="text">Product title contains search keywords, brand name, color, size, model</span>
           <el-form-item label="Product name" prop="title">
             <el-input v-model="newgood.title"></el-input>
           </el-form-item>
           <el-form-item label="SKU" prop="sku_cd">
             <el-input v-model="newgood.sku_cd"></el-input>
           </el-form-item>
-          <span class="text">品牌商可以选择不提供UPC和EAN码 eBay网店不一定需要UPC码，amazon网店通常自己再另外为借卖商品申请UPC码，
-            这样可以让商品独立销售，如果amazon网店不为借卖商品另外申请UPC码，将以跟卖商品销售商品。</span>
+          <span class="text">Brands can choose not to provide UPC and ean codes</span>
           <el-form-item label="UPC" prop="upc">
             <el-input v-model="newgood.upc"></el-input>
           </el-form-item>
           <el-form-item label="EAN" prop="ean">
             <el-input v-model="newgood.ean"></el-input>
           </el-form-item>
-          <el-form-item label="体积重">
+          <el-form-item label="Volume weight">
             <el-col :span="11">
               <el-form-item label="Length" prop="length" size="mini">
                 <el-input v-model="newgood.length"></el-input>
@@ -146,18 +145,18 @@
           <el-form-item label="Model" prop="model">
             <el-input v-model="newgood.model"></el-input>
           </el-form-item>
-          <span class="text">商品正式上架前，请再审阅借卖价格，并选择借卖价格有效期</span>
+          <span class="text">Before the goods are officially put on the shelves, please review the borrowing price and select the validity period of the borrowing price</span>
           <el-form-item label="Price" prop="retail_price">
             <el-input v-model="newgood.retail_price"></el-input>
           </el-form-item>
           <el-form-item label="Stock" prop="stock">
             <el-input v-model="newgood.stock"></el-input>
           </el-form-item>
-          <span class="text">商品质保承诺将大大提升市场信心（可不提供）</span>
+          <span class="text">Promise of commodity quality guarantee will greatly enhance market confidence (not available)</span>
           <el-form-item label="Warranty Period" prop="warranty_day">
             <el-input v-model="newgood.warranty_day"></el-input>
           </el-form-item>
-          <span class="text">注意：商品详情可以利用图片+文字的方式推送</span>
+          <span class="text">Note: product details can be pushed with pictures and text</span>
           <el-form-item label="Description" prop="description">
             <markdown-editor ref="markdownEditor" v-model="newgood.description" :options="{hideModeSwitch:true,previewStyle:'tab'}" height="200px" />
           </el-form-item>
@@ -197,70 +196,71 @@ export default {
         sts_cd:'1',
       },
       goodsInfo: [
-      {
-        title: "phone",
-        retail_price: 3400,
-        stock: 8888,
-        sku_cd: "GM001031",
-        upc:'',
-        ean:'',
-        length:'',
-        height:'',
-        width:'',
-        weight:'',
-        model:'',
-        warranty_day:'',
-        description:'',
-        sts_cd:''
-      },
-      {
-        title: "huawei",
-        retail_price: 3900,
-        stock: 88,
-        sku_cd: "GM001031",
-        upc:'',
-        ean:'',
-        length:'',
-        height:'',
-        width:'',
-        weight:'',
-        model:'',
-        warranty_day:'',
-        description:'',
-        sts_cd:''
-      },
-      {
-        title: "iphone",
-        retail_price: 5500,
-        stock: 80,
-        sku_cd: "GM001031",
-        upc:'',
-        ean:'',
-        length:'',
-        height:'',
-        width:'',
-        weight:'',
-        model:'',
-        warranty_day:'',
-        description:'',
-        sts_cd:''
-      },
-      {
-        title: "iphone",
-        retail_price: 5500,
-        stock: 80,
-        sku_cd: "GM001031",
-        upc:'',
-        ean:'',
-        length:'',
-        height:'',
-        width:'',
-        weight:'',
-        model:'',
-        warranty_day:'',
-        description:'',
-        sts_cd:''
-      }],
+      // {
+      //   title: "phone",
+      //   retail_price: 3400,
+      //   stock: 8888,
+      //   sku_cd: "GM001031",
+      //   upc:'',
+      //   ean:'',
+      //   length:'',
+      //   height:'',
+      //   width:'',
+      //   weight:'',
+      //   model:'',
+      //   warranty_day:'',
+      //   description:'',
+      //   sts_cd:''
+      // },
+      // {
+      //   title: "huawei",
+      //   retail_price: 3900,
+      //   stock: 88,
+      //   sku_cd: "GM001031",
+      //   upc:'',
+      //   ean:'',
+      //   length:'',
+      //   height:'',
+      //   width:'',
+      //   weight:'',
+      //   model:'',
+      //   warranty_day:'',
+      //   description:'',
+      //   sts_cd:''
+      // },
+      // {
+      //   title: "iphone",
+      //   retail_price: 5500,
+      //   stock: 80,
+      //   sku_cd: "GM001031",
+      //   upc:'',
+      //   ean:'',
+      //   length:'',
+      //   height:'',
+      //   width:'',
+      //   weight:'',
+      //   model:'',
+      //   warranty_day:'',
+      //   description:'',
+      //   sts_cd:''
+      // },
+      // {
+      //   title: "iphone",
+      //   retail_price: 5500,
+      //   stock: 80,
+      //   sku_cd: "GM001031",
+      //   upc:'',
+      //   ean:'',
+      //   length:'',
+      //   height:'',
+      //   width:'',
+      //   weight:'',
+      //   model:'',
+      //   warranty_day:'',
+      //   description:'',
+      //   sts_cd:''
+      // }
+      ],
       searchInfo:{
         title:'',
         retail_price:'',
@@ -322,16 +322,16 @@ export default {
             { required: true, message: 'Can not be empty', trigger: 'blur' },
           ],
           length: [
-            { required: true, message: 'Can not be empty', trigger: 'blur' },
+            { required: true, message: ' ', trigger: 'blur' },
           ],
           height: [
-            { required: true, message: 'Can not be empty', trigger: 'blur' },
+            { required: true, message: ' ', trigger: 'blur' },
           ],
           width: [
-            { required: true, message: 'Can not be empty', trigger: 'blur' },
+            { required: true, message: ' ', trigger: 'blur' },
           ],
           weight: [
-            { required: true, message: 'Can not be empty', trigger: 'blur' },
+            { required: true, message: ' ', trigger: 'blur' },
           ]
 
 
@@ -359,14 +359,14 @@ export default {
                 if (res.code ===200){
                     this.add = false
                     this.getMvoProduct()
-                    this.$message.success('保存成功');
+                    this.$message.success('Saved successfully');
                 }else {
-                    this.$message.error('保存失败')
+                    this.$message.error('Save failed')
                 }
             }) ;
           } else {
             console.log('error submit!!');
-            alert('请正确填写信息!!');
+            alert('Please fill in the information correctly!!');
             return false;
           }
         });
@@ -404,7 +404,7 @@ export default {
                       this.edit = false;
                       this.getMvoProduct()
                       this.$message({
-                          message: '修改成功',
+                          message: 'Modification succeeded',
                           type: 'success'
                       });
                   }
@@ -412,7 +412,7 @@ export default {
 
           } else {
             console.log('error submit!!');
-            alert('请正确填写信息!!');
+            alert('Please fill in the information correctly!!');
             return false;
           }
         });
@@ -423,9 +423,9 @@ export default {
       console.log(this.multipleSelection);
     },
     deleteAll(){
-        this.$confirm('是否确认删除这些商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure you want to delete these items?', 'Tips', {
+          confirmButtonText: 'Yse',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           this.multipleSelection.forEach((item) => {
@@ -457,20 +457,20 @@ export default {
               this.multipleSelection = [];
               this.$message({
                   type: 'success',
-                  message: '删除成功!'
+                  message: 'Deletion succeeded!'
               });
           })
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Deletion cancelled'
           });
         });
     },
     deletegood(i) {
-        this.$confirm('是否确认删除该商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm('Are you sure you want to delete this product?', 'Tips', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           var productVo={
@@ -496,7 +496,7 @@ export default {
                   this.getMvoProduct()
                   this.$message({
                       type: 'success',
-                      message: '删除成功!'
+                      message: 'Deletion succeeded!'
                   });
               }
           })
@@ -504,7 +504,7 @@ export default {
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Deletion cancelled'
           });
         });
     },
