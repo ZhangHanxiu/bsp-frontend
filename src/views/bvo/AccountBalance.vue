@@ -122,7 +122,7 @@
         this.table4 = '';
       },
       loginWallet(){
-        loginWallet(this.walletInfo).then(res =>{
+        loginWallet(this.form).then(res =>{
           if (res.code ===200 ){
             this.$message.success('Login successful!');
             localStorage.setItem('accountName',res.data.account_name);

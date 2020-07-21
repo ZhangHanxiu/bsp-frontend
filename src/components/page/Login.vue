@@ -99,6 +99,7 @@
 
 <script>
     import {Login} from '../../api/user'
+    import { initDynamicRoutes } from '../../router';
     export default {
         data() {
             return {
@@ -177,7 +178,7 @@
             },
             //提交登录
             submitForm() {
-                if(this.loginForm.seccode !== this.checkCode) {
+                if(this.loginForm.seccode === this.checkCode) {
                     this.$message({
                         message: "Identify code incorrect",
                         type: "error"
@@ -196,7 +197,7 @@
                         localStorage.setItem("role_id",res.data.role_id);
                         localStorage.setItem('ms_username', this.loginForm.username);
                         sessionStorage.setItem('Authorization',res.token);
-                        console.log("token: "+res.token);
+                        initDynamicRoutes();
                         //console.log(sessionStorage.getItem('Autorization'));
                         this.$router.push('/');
                     }else {

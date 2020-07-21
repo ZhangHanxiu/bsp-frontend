@@ -22,6 +22,7 @@ export const registerWallet = data => {
  * @returns {*}
  */
 export const loginWallet = data => {
+    console.log(data)
     return request({
         url: '/wallet/login',
         method: 'post',

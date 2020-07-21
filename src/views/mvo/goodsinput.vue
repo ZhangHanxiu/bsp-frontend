@@ -3,9 +3,9 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:24px;font-weight:normal;">
-          MVO
+          品牌商MVO
           <small style="font-size:14px;">
-            <i class="el-icon-d-arrow-right"></i> Goods Input
+            <i class="el-icon-d-arrow-right"></i> 商品录入
           </small>
         </h1>
       </div>
@@ -13,7 +13,7 @@
 
     <el-main>
       <span>
-      Title：
+      商品标题name：
       <el-input style="width:200px" placeholder @input="search" v-model="search"></el-input>
       </span>
       <el-button type="primary" icon="el-icon-search" @click="searchgood()"></el-button>
@@ -46,7 +46,7 @@
     <!-- edit goods -->
     <el-dialog title="Edit" :visible.sync="edit" width="45%">
       <el-form :model="editgood" :rules="rules" ref="editgood" label-width="auto" class="demo-ruleForm" text-align="center">
-          <span class="text">The product title contains search keywords, brand name, color, size, model</span>
+          <span class="text">商品标题中包含搜索关键字，品牌名，颜色，大小，型号</span>
           <el-form-item label="Product name" prop="title">
             <el-input v-model="editgood.title"></el-input>
           </el-form-item>
@@ -59,7 +59,7 @@
           <el-form-item label="EAN" prop="ean">
             <el-input v-model="editgood.ean"></el-input>
           </el-form-item>
-          <el-form-item label="Bulk">
+          <el-form-item label="体积重">
             <el-col :span="11">
               <el-form-item label="Length" prop="length" size="mini">
                 <el-input v-model="editgood.length"></el-input>
@@ -106,21 +106,22 @@
     <!-- Add goods -->
     <el-dialog title="Add" :visible.sync="add" width="45%">
       <el-form :model="newgood" :rules="rules" ref="newgood" label-width="auto" class="demo-ruleForm" text-align="center">
-          <span class="text">The product title contains search keywords, brand name, color, size, model</span>
+          <span class="text">商品标题中包含搜索关键字，品牌名，颜色，大小，型号</span>
           <el-form-item label="Product name" prop="title">
             <el-input v-model="newgood.title"></el-input>
           </el-form-item>
           <el-form-item label="SKU" prop="sku_cd">
             <el-input v-model="newgood.sku_cd"></el-input>
           </el-form-item>
-          <span class="text">You can choose not to provide UPC and ean codes</span>
+          <span class="text">品牌商可以选择不提供UPC和EAN码 eBay网店不一定需要UPC码，amazon网店通常自己再另外为借卖商品申请UPC码，
+            这样可以让商品独立销售，如果amazon网店不为借卖商品另外申请UPC码，将以跟卖商品销售商品。</span>
           <el-form-item label="UPC" prop="upc">
             <el-input v-model="newgood.upc"></el-input>
           </el-form-item>
           <el-form-item label="EAN" prop="ean">
             <el-input v-model="newgood.ean"></el-input>
           </el-form-item>
-          <el-form-item label="Bulk">
+          <el-form-item label="体积重">
             <el-col :span="11">
               <el-form-item label="Length" prop="length" size="mini">
                 <el-input v-model="newgood.length"></el-input>
@@ -145,19 +146,18 @@
           <el-form-item label="Model" prop="model">
             <el-input v-model="newgood.model"></el-input>
           </el-form-item>
-          <span class="text">Before the product is officially put on the shelves,
-              please review the borrowing and selling price and select the validity period of the borrowing and selling price</span>
+          <span class="text">商品正式上架前，请再审阅借卖价格，并选择借卖价格有效期</span>
           <el-form-item label="Price" prop="retail_price">
             <el-input v-model="newgood.retail_price"></el-input>
           </el-form-item>
           <el-form-item label="Stock" prop="stock">
             <el-input v-model="newgood.stock"></el-input>
           </el-form-item>
-          <span class="text">Commodity warranty commitment will greatly enhance market confidence (may not be provided)</span>
+          <span class="text">商品质保承诺将大大提升市场信心（可不提供）</span>
           <el-form-item label="Warranty Period" prop="warranty_day">
             <el-input v-model="newgood.warranty_day"></el-input>
           </el-form-item>
-          <span class="text">Note: Product details can be pushed using pictures + text</span>
+          <span class="text">注意：商品详情可以利用图片+文字的方式推送</span>
           <el-form-item label="Description" prop="description">
             <markdown-editor ref="markdownEditor" v-model="newgood.description" :options="{hideModeSwitch:true,previewStyle:'tab'}" height="200px" />
           </el-form-item>
@@ -174,12 +174,13 @@
 <script>
 import MarkdownEditor from '@/components/MarkdownEditor'
 import { getProduct } from '../../api/bvo';
-import { addGood, getMvoProduct } from '../../api/mvo';
+import { alterGood, getMvoProduct } from '../../api/mvo';
 export default {
   components: { MarkdownEditor },
   data() {
     return {
       newgood:{
+        proId:0,
         title: '',
         retail_price: '',
         stock: '',
@@ -193,7 +194,7 @@ export default {
         model:'',
         warranty_day:'',
         description:'',
-        sts_cd:'a',
+        sts_cd:'1',
       },
       goodsInfo: [
       {
@@ -267,20 +268,21 @@ export default {
         sku_cd:'',
       },
       editgood:{
+        proId:0,
         title:'',
-        retail_price:'',
-        stock:'',
+        retail_price:0,
+        stock:0,
         sku_cd:'',
         upc:'',
         ean:'',
-        length:'',
-        height:'',
-        width:'',
-        weight:'',
+        length:0,
+        height:0,
+        width:0,
+        weight:0,
         model:'',
         warranty_day:'',
         description:'',
-        index:''
+        sts_cd:'1',
       },
       edit:false,
       orginTableData: [],
@@ -306,6 +308,10 @@ export default {
             { min: 3, max: 10, message: 'Must be 3-10 characters', trigger: 'blur' }
           ],
           model: [
+            { required: true, message: 'Can not be empty', trigger: 'blur' },
+            { min: 3, max: 10, message: 'Must be 3-10 characters', trigger: 'blur' }
+          ],
+          stock: [
             { required: true, message: 'Can not be empty', trigger: 'blur' },
             { min: 3, max: 10, message: 'Must be 3-10 characters', trigger: 'blur' }
           ],
@@ -349,17 +355,18 @@ export default {
     addgood(formName){
       this.$refs[formName].validate((valid) => {
           if (valid) {
-            addGood(this.newgood).then(res =>{
+            alterGood(this.newgood,localStorage.getItem("userId")).then(res =>{
                 if (res.code ===200){
-                    this.add = false;
-                    this.$message.success('Saved successfully!');
+                    this.add = false
+                    this.getMvoProduct()
+                    this.$message.success('保存成功');
                 }else {
-                    this.$message.error('Save failed')
+                    this.$message.error('保存失败')
                 }
             }) ;
           } else {
             console.log('error submit!!');
-            alert('Please fill in the information correctly!!');
+            alert('请正确填写信息!!');
             return false;
           }
         });
@@ -368,51 +375,44 @@ export default {
     },
     editgoods(i) {
       this.edit = true;
-      this.editgood.title = this.goodsInfo[i].title;
-      this.editgood.retail_price = this.goodsInfo[i].retail_price;
-      this.editgood.stock = this.goodsInfo[i].stock;
-      this.editgood.sku_cd = this.goodsInfo[i].sku_cd;
-      this.editgood.upc = this.goodsInfo[i].upc;
-      this.editgood.ean = this.goodsInfo[i].ean;
+      console.log(this.searchInfo[i])
+      this.editgood.proId=this.searchInfo[i].proId;
+      this.editgood.title = this.searchInfo[i].title;
+      this.editgood.retail_price = this.searchInfo[i].retail_price;
+      this.editgood.stock = this.searchInfo[i].stock;
+      this.editgood.sku_cd = this.searchInfo[i].sku_cd;
+      this.editgood.upc = this.searchInfo[i].upc;
+      this.editgood.ean = this.searchInfo[i].ean;
 
-      this.editgood.length = this.goodsInfo[i].length;
-      this.editgood.width = this.goodsInfo[i].width;
-      this.editgood.height = this.goodsInfo[i].height;
-      this.editgood.weight = this.goodsInfo[i].weight;
+      this.editgood.length = this.searchInfo[i].length;
+      this.editgood.width = this.searchInfo[i].width;
+      this.editgood.height = this.searchInfo[i].height;
+      this.editgood.weight = this.searchInfo[i].weight;
 
-      this.editgood.model = this.goodsInfo[i].model;
-      this.editgood.warranty_day = this.goodsInfo[i].warranty_day;
-      this.editgood.description = this.goodsInfo[i].description;
-      this.editgood.index = i;
+      this.editgood.model = this.searchInfo[i].model;
+      this.editgood.warranty_day = this.searchInfo[i].warranty_day;
+      this.editgood.description = this.searchInfo[i].description;
+      this.editgood.sts_cd=this.searchInfo[i].sts_cd
       console.log(this.editgood);
     },
     saveEdit(formName) {
        this.$refs[formName].validate((valid) => {
           if (valid) {
-            var i = this.editgood.index;
-            this.goodsInfo[i].title = this.editgood.title
-            this.goodsInfo[i].retail_price = this.editgood.retail_price;
-            this.goodsInfo[i].stock = this.editgood.stock;
-            this.goodsInfo[i].sku_cd = this.editgood.sku_cd;
-            this.goodsInfo[i].upc = this.editgood.upc;
-            this.goodsInfo[i].ean = this.editgood.ean;
+              console.log(this.editgood)
+              alterGood(this.editgood,localStorage.getItem("userId")).then(res => {
+                  if (res.code === 200) {
+                      this.edit = false;
+                      this.getMvoProduct()
+                      this.$message({
+                          message: '修改成功',
+                          type: 'success'
+                      });
+                  }
+              })
 
-            this.goodsInfo[i].length = this.editgood.length;
-            this.goodsInfo[i].width = this.editgood.width;
-            this.goodsInfo[i].height = this.editgood.height;
-            this.goodsInfo[i].weight = this.editgood.weight;
-
-            this.goodsInfo[i].model = this.editgood.model;
-            this.goodsInfo[i].warranty_day = this.editgood.warranty_day;
-            this.goodsInfo[i].description = this.editgood.description;
-            this.edit = false;
-            this.$message({
-              message: 'Successfully modified',
-              type: 'success'
-            });
           } else {
             console.log('error submit!!');
-            alert('Please fill in the information correctly!!');
+            alert('请正确填写信息!!');
             return false;
           }
         });
@@ -423,47 +423,88 @@ export default {
       console.log(this.multipleSelection);
     },
     deleteAll(){
-        this.$confirm('Are you sure to delete these products?', 'Prompt', {
-          confirmButtonText: 'Sure',
-          cancelButtonText: 'Cancel',
+        this.$confirm('是否确认删除这些商品?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.multipleSelection.forEach((item) => {
-            for (let i = 0; i < this.goodsInfo.length; i++) {
-              if (this.goodsInfo[i].title === item.title) {
-                this.goodsInfo.splice(i, 1);
-                 break;
+            for (let i = 0; i < this.searchInfo.length; i++) {
+              if (this.searchInfo[i].title === item.title) {
+                  var productVo = {
+                      proId: item.proId,
+                      sku_cd: item.sku_cd,
+                      title: item.title,
+                      upc: item.upc,
+                      Ean: item.ean,
+                      model: item.model,
+                      warranty_day: item.warranty_day,
+                      retail_price: item.retail_price,
+                      description: item.description,
+                      width: item.width,
+                      height: item.height,
+                      length: item.length,
+                      weight: item.weight,
+                      stock: item.stock,
+                      sts_cd: '4'
+                  }
+                  alterGood(productVo, localStorage.getItem("userId"))
               }
             }
-          });
-          this.multipleSelection = [];
-          this.$message({
-            type: 'success',
-            message: 'Successfully deleted!'
-          });
+          }).then(()=> {
+              this.searchInfo = []
+              this.getMvoProduct()
+              this.multipleSelection = [];
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              });
+          })
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: 'Undeleted'
+            message: '已取消删除'
           });
         });
     },
     deletegood(i) {
-        this.$confirm('Are you sure to delete the product?', 'Prompt', {
-          confirmButtonText: 'Sure',
-          cancelButtonText: 'Cancel',
+        this.$confirm('是否确认删除该商品?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.goodsInfo.splice(i, 1);
-          this.goodsInfo[i].sts_cd = 'd';
-          this.$message({
-            type: 'success',
-            message: 'Successfully deleted!'
-          });
+          var productVo={
+              proId: this.searchInfo[i].proId,
+              sku_cd: this.searchInfo[i].sku_cd,
+              title: this.searchInfo[i].title,
+              upc: this.searchInfo[i].upc,
+              Ean: this.searchInfo[i].ean,
+              model: this.searchInfo[i].model,
+              warranty_day: this.searchInfo[i].warranty_day,
+              retail_price: this.searchInfo[i].retail_price,
+              description: this.searchInfo[i].description,
+              width: this.searchInfo[i].width,
+              height: this.searchInfo[i].height,
+              length: this.searchInfo[i].length,
+              weight: this.searchInfo[i].weight,
+              stock: this.searchInfo[i].stock,
+              sts_cd: '4'
+          }
+          alterGood(productVo,localStorage.getItem("userId")).then(res => {
+              if (res.code === 200) {
+                  this.add = false
+                  this.getMvoProduct()
+                  this.$message({
+                      type: 'success',
+                      message: '删除成功!'
+                  });
+              }
+          })
+
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: 'Undeleted'
+            message: '已取消删除'
           });
         });
     },

@@ -149,6 +149,7 @@
               <el-table-column prop="sku" label="Sku"></el-table-column>
               <el-table-column prop="orderNo" label="Order No"></el-table-column>
               <el-table-column prop="createdTime" label="Create Time"></el-table-column>
+            
             </el-table>
           </el-tab-pane>
       </el-tabs>
@@ -182,7 +183,26 @@
 
       </el-dialog>
 
-		<!-- !!!!!!物流跟踪!!!!!!!!!!! -->
+
+    <!-- 添加弹出框 -->
+    <el-dialog title="添加物流信息" :visible.sync="addVisible" width="33%" >
+      <el-form ref="form" :model="order"   label-width="100px">
+        <el-form-item label="快递单号" prop="roleName">
+          <el-input v-model="order.trackingNo"></el-input>
+        </el-form-item>
+        <el-form-item label="快递公司">
+          <el-input v-model="order.wspName"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+                <el-button @click="">取 消</el-button>
+                <el-button type="primary" @click="ship()">确 定</el-button>
+            </span>
+    </el-dialog>
+
+
+
+    <!-- !!!!!!物流跟踪!!!!!!!!!!! -->
     <el-dialog title="Logistics tracking" :visible.sync="logistics" width="60%">
 			<span></span>
 			<el-steps :active="2" align-center>
@@ -206,12 +226,14 @@
 <script>
 
   import {
-    getAllOrder,
-    getMvoAwaitingPaymentOrder,
-    getMvoAwaitingShipmentOrder, getMvoCancelledTOrder,
-    getMvoCompletedOrder,
-    getMvoShippedOrder
+
   } from '../../api/mvo';
+  import { getAwaitingPaymentOrder } from '../../api/mvo';
+  import { getAwaitingShipmentOrder } from '../../api/mvo';
+  import { getShippedOrder } from '../../api/mvo';
+  import { getCompletedOrder } from '../../api/mvo';
+  import { getCancelledOrder } from '../../api/mvo';
+  import { editOrderSts } from '../../api/mvo';
 
 export default {
   name: 'Tab',
@@ -220,10 +242,24 @@ export default {
     return {
 
       form:{
-
+        userId:0,
+        orderSts:''
       },
+      order:{
+        createdTime: '',
+        orderNo: '',
+        orderSts: '',
+        price: 0,
+        qty: 0,
+        sku: '',
+        title: '',
+        trackingNo: '',
+        wspName: ''
+      },
+
+      addVisible:false,
 			//商品详情
-			product: [
+      product: [
         {
           imgPath: 'https://img.alicdn.com/imgextra/i1/2200731938403/O1CN01qNHAwk2BwcfVUVp4z_!!0-item_pic.jpg_430x430q90.jpg',
           name:"Glass Housing Multi-purpose 12L Portable Convection Oven",
@@ -234,334 +270,172 @@ export default {
 					description:"Raw denim you probably haven't heard of them jean shorts Austin."
         }
       ],
-			detail:false,
+      detail:false,
       logistics:false,
-      AwaitingPaymentTableData: [
-				],
-
-			AwaitingShipmentTableData: [
-				{
-				  title: '2016-05-03',
-					price: '$114',
-					qty:114514,
-					sku:'q1919810',
-          orderNo:987489,
-          createdTime:'2020-11-03',
-				},
-				{
-				  title: '2016-05-03',
-				  price: '$114',
-				  qty:114514,
-				  sku:'q1919810',
-				  orderNo:987489,
-				  createdTime:'2020-11-03',
-				},
-				{
-					title: '2016-05-03',
-					price: '$114',
-					qty:114514,
-					sku:'q1919810',
-					orderNo:987489,
-					createdTime:'2020-11-03',
-				},
-				{
-	  	    title: '2016-05-03',
-				  price: '$114',
-				  qty:114514,
-				  sku:'q1919810',
-				  orderNo:987489,
-				  createdTime:'2020-11-03',
-				},
-				{
-				  title: '2016-05-03',
-				  price: '$114',
-				  qty:114514,
-				  sku:'q1919810',
-				  orderNo:987489,
-				  createdTime:'2020-11-03',
-				},
-				{
-				  title: '2016-05-03',
-				  price: '$114',
-				  qty:114514,
-				  sku:'q1919810',
-				  orderNo:987489,
-				  createdTime:'2020-11-03',
-				},
-				{
-				  title: '2016-05-03',
-				  price: '$114',
-				  qty:114514,
-				  sku:'q1919810',
-				  orderNo:987489,
-				  createdTime:'2020-11-03',
-				}],
-
-			ShippedTableData: [
-				{
-			    title: '2016-05-03',
-					price: '$114',
-					qty:114514,
-					sku:'q1919810',
-					orderNo:987489,
-					trackingno:456456,
-					createdTime:'2020-11-03',
-				},
-				{
-			    title: '2016-05-03',
-			    price: '$114',
-			    qty:114514,
-			    sku:'q1919810',
-			    orderNo:987489,
-					trackingno:456456,
-			    createdTime:'2020-11-03',
-				},
-				{
-					title: '2016-05-03',
-					price: '$114',
-					qty:114514,
-					sku:'q1919810',
-					orderNo:987489,
-					trackingno:456456,
-					createdTime:'2020-11-03',
-				},
-				{
-			    title: '2016-05-03',
-			    price: '$114',
-			    qty:114514,
-			    sku:'q1919810',
-					trackingno:456456,
-			    orderNo:987489,
-			    createdTime:'2020-11-03',
-				},
-				{
-			    title: '2016-05-03',
-			    price: '$114',
-			    qty:114514,
-			    sku:'q1919810',
-			    orderNo:987489,
-					trackingno:456456,
-			    createdTime:'2020-11-03',
-				},
-				{
-			    title: '2016-05-03',
-			    price: '$114',
-			    qty:114514,
-			    sku:'q1919810',
-			    orderNo:987489,
-					trackingno:456456,
-			    createdTime:'2020-11-03',
-				},
-				{
-			    title: '2016-05-03',
-			    price: '$114',
-			    qty:114514,
-			    sku:'q1919810',
-			    orderNo:987489,
-					trackingno:456456,
-			    createdTime:'2020-11-03',
-			  }],
-
-			CompletedTableData: [
-					{
-			    	title: '2016-05-03',
-						price: '$114',
-						qty:114514,
-						sku:'q1919810',
-						orderNo:987489,
-						trackingno:456456,
-						createdTime:'2020-11-03',
-					},
-					{
-						title: '2016-05-03',
-						price: '$114',
-						qty:114514,
-						sku:'q1919810',
-						orderNo:987489,
-						trackingno:456456,
-						createdTime:'2020-11-03',
-					},
-					{
-						title: '2016-05-03',
-						price: '$114',
-						qty:114514,
-						sku:'q1919810',
-						orderNo:987489,
-						trackingno:456456,
-						createdTime:'2020-11-03',
-					},
-					{
-						title: '2016-05-03',
-						price: '$114',
-						qty:114514,
-						sku:'q1919810',
-						trackingno:456456,
-						orderNo:987489,
-						createdTime:'2020-11-03',
-					},
-					{
-			    	title: '2016-05-03',
-			      price: '$114',
-			      qty:114514,
-			      sku:'q1919810',
-			      orderNo:987489,
-					  trackingno:456456,
-			      createdTime:'2020-11-03',
-					},
-					{
-			      title: '2016-05-03',
-			      price: '$114',
-			      qty:114514,
-			      sku:'q1919810',
-			      orderNo:987489,
-					  trackingno:456456,
-			      createdTime:'2020-11-03',
-					},
-					{
-			      title: '2016-05-03',
-			      price: '$114',
-			      qty:114514,
-			      sku:'q1919810',
-			      orderNo:987489,
-					  trackingno:456456,
-			      createdTime:'2020-11-03',
-			    }],
-
-					CancelledTableData: [
-						{
-							title: '2016-05-03',
-							price: '$114',
-							qty:114514,
-							sku:'q1919810',
-							orderNo:987489,
-							createdTime:'2020-11-03',
-						},
-						{
-							title: '2016-05-03',
-							price: '$114',
-							qty:114514,
-							sku:'q1919810',
-							orderNo:987489,
-							createdTime:'2020-11-03',
-						},
-						{
-							title: '2016-05-03',
-							price: '$114',
-							qty:114514,
-							sku:'q1919810',
-							orderNo:987489,
-							createdTime:'2020-11-03',
-						},
-						{
-							title: '2016-05-03',
-							price: '$114',
-							qty:114514,
-							sku:'q1919810',
-							orderNo:987489,
-							createdTime:'2020-11-03',
-						},
-						{
-			    		title: '2016-05-03',
-			        price: '$114',
-			        qty:114514,
-			        sku:'q1919810',
-			        orderNo:987489,
-			        createdTime:'2020-11-03',
-						},
-						{
-			        title: '2016-05-03',
-			        price: '$114',
-			        qty:114514,
-			        sku:'q1919810',
-			        orderNo:987489,
-			        createdTime:'2020-11-03',
-						},
-						{
-			        title: '2016-05-03',
-			        price: '$114',
-			        qty:114514,
-			        sku:'q1919810',
-			        orderNo:987489,
-			        createdTime:'2020-11-03',
-			      }],
+      AwaitingPaymentTableData: [],
+      AwaitingShipmentTableData: [],
+      ShippedTableData: [],
+      CompletedTableData: [],
+      CancelledTableData: [],
     }
   },
 
 
   created() {
-    this.getMvoOrder();
+    this.getAwaitingPaymentOrder()
+    this.getAwaitingShipmentOrder()
+    this.getShippedOrder()
+    this.getCompletedOrder()
+    this.getCancelledOrder()
   },
   methods: {
 
-    getMvoOrder(){
-
-      getAllOrder().then(res =>{
-        if (res.code === 200){
-          const orderList = res.data.list;
-          console.log(orderList)
-          for (let i =0;i<orderList.length;i++){
-            if (orderList[i].orderSts === '1'){
-              console.log(hh)
-              this.AwaitingPaymentTableData.push(orderList[i]);
-            }
-          }
+    getAwaitingPaymentOrder() {
+      getAwaitingPaymentOrder(localStorage.getItem('userId'),'1').then(res => {
+        if (res.code === 200) {
           this.AwaitingPaymentTableData = res.data;
-        }else {
+        } else {
           this.$message.error('Abnormal data echo')
         }
       });
     },
 
-    toDetail(){
-        this.detail = true;
+    getAwaitingShipmentOrder() {
+      getAwaitingShipmentOrder(localStorage.getItem('userId'),'2').then(res => {
+        if (res.code === 200) {
+          this.AwaitingShipmentTableData = res.data;
+        } else {
+          this.$message.error('Abnormal data echo')
+        }
+      });
     },
-    toShip(i){
-			this.$confirm('Is delivery confirmed?', 'Tips', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'warning'
-        }).then(() => {
-          this.ShippedTableData.push({
-						title:this.AwaitingShipmentTableData[i].title,
-						price:this.AwaitingShipmentTableData[i].price,
-						qty:this.AwaitingShipmentTableData[i].qty,
-						sku:this.AwaitingShipmentTableData[i].sku,
-						orderNo:this.AwaitingShipmentTableData[i].orderNo,
-						createdTime:this.AwaitingShipmentTableData[i].createdTime,
-						trackingno:11111
-					});
-					this.AwaitingShipmentTableData.splice(i, 1);
-          this.$message({
-            type: 'success',
-            message: 'Delivery successful!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Shipment cancelled'
-          });
+
+    getShippedOrder() {
+      getShippedOrder(localStorage.getItem('userId'),'3').then(res => {
+        if (res.code === 200) {
+          this.ShippedTableData = res.data;
+        } else {
+          this.$message.error('Abnormal data echo')
+        }
+      });
+    },
+
+
+    getCompletedOrder() {
+      getCompletedOrder(localStorage.getItem('userId'),'4').then(res => {
+        if (res.code === 200) {
+          this.CompletedTableData = res.data;
+        } else {
+          this.$message.error('Abnormal data echo')
+        }
+      });
+    },
+
+
+    getCancelledOrder() {
+      getCancelledOrder(localStorage.getItem('userId'),'5').then(res => {
+        if (res.code === 200) {
+          this.CancelledTableData = res.data;
+        } else {
+          this.$message.error('Abnormal data echo')
+        }
+      });
+    },
+
+    toDetail() {
+      this.detail = true;
+    },
+    toShip(i) {
+      this.order.title = this.AwaitingShipmentTableData[i].title
+      this.order.price = this.AwaitingShipmentTableData[i].price
+      this.order.qty = this.AwaitingShipmentTableData[i].qty
+      this.order.sku = this.AwaitingShipmentTableData[i].sku
+      this.order.orderNo = this.AwaitingShipmentTableData[i].orderNo
+      this.order.createdTime = this.AwaitingShipmentTableData[i].createdTime
+      this.order.orderSts = "3"
+      this.addVisible = true
+    },
+    ship() {
+      this.$confirm('Is delivery confirmed?', 'Tips', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        type: 'warning'
+      }).then(() => {
+        console.log(this.order)
+        editOrderSts(this.order).then(res => {
+          if (res.code === 200) {
+            this.getAwaitingPaymentOrder();
+            this.getAwaitingShipmentOrder();
+            this.getShippedOrder();
+            this.getCompletedOrder();
+            this.getCancelledOrder();
+            this.addVisible = false;
+          }
+        }).then(()=>{this.$message({
+          type: 'success',
+          message: 'Delivery successful!'
         });
-		},
-		toCancel(i){
-			this.$confirm('Cancel shipment?', 'Tips', {
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No',
-          type: 'warning'
-        }).then(() => {
-          this.CompletedTableData.push(this.ShippedTableData[i]);
-					this.ShippedTableData.splice(i, 1);
-          this.$message({
-            type: 'success',
-            message: 'Cancel shipment successfully!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Operation aborted'
-          });
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Shipment cancelled'
         });
-		}
+      })
+    },
+    toCancel(i) {
+      this.$confirm('Is cancel confirmed?', 'Tips', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        type: 'warning'
+      }).then(() => {
+        this.order.title = this.ShippedTableData[i].title,
+        this.order.price = this.ShippedTableData[i].price,
+        this.order.qty = this.ShippedTableData[i].qty,
+        this.order.sku = this.ShippedTableData[i].sku,
+        this.order.orderNo = this.ShippedTableData[i].orderNo,
+        this.order.createdTime = this.ShippedTableData[i].createdTime
+        this.order.orderSts = "5"
+        this.order.wspName = this.ShippedTableData[i].wspName
+        this.order.trackingNo = this.ShippedTableData[i].trackingNo
+        console.log(this.order)
+        editOrderSts(this.order).then(res => {
+          if (res.code === 200) {
+            this.getAwaitingPaymentOrder();
+            this.getAwaitingShipmentOrder();
+            this.getShippedOrder();
+            this.getCompletedOrder();
+            this.getCancelledOrder();
+          }
+        }).then(()=>{
+            this.$message({
+            type: 'success',
+            message: 'Canceled successful!'
+          });
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Canceled failed'
+        });
+      })
+    }
   }
+
+    /*editOrderSts(orderSts){
+      editOrderSts(this.order).then(res =>{
+        if (res.code ===200){
+          this.getShippedOrder();
+          this.addVisible = false;
+          this.$message.success('修改成功');
+        }else{
+          this.$message.error('修改失败');
+        }
+      })
+    }
+    },*/
+
+
 }
 </script>
 
