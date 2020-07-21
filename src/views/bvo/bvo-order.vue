@@ -45,7 +45,7 @@
 							<el-table-column prop="total" label="Total"></el-table-column>
 							<el-table-column label="Operation">
 								<template slot-scope="scope">
-									<el-button type="primary" plain size="mini" @click="loginwallet(scope.$index)">Pay Now</el-button>
+									<el-button type="primary" plain size="mini" @click="paynow(scope.$index)">Pay Now</el-button>
 								</template>
 							</el-table-column>
 					</el-table>
@@ -207,11 +207,11 @@
 					<el-input v-model="walletInfo.accountname"></el-input>
 				</el-form-item>
 				<el-form-item label="Password" prop="password">
-					<el-input v-model="walletInfo.password"></el-input>
+					<el-input v-model="walletInfo.password" type="password"></el-input>
 				</el-form-item>
 				<el-form-item style="text-align:center" >
 					<el-button class="pan-btn tiffany-btn" @click="wallet = false">Cancel</el-button>
-          <el-button class="pan-btn tiffany-btn" @click="toPay('walletInfo')">Log in</el-button>
+          <el-button class="pan-btn tiffany-btn" @click="walletlogin('walletInfo')">Log in</el-button>
         </el-form-item>
 			</el-form>
 			<!-- <span slot="footer" class="dialog-footer"></span> -->
@@ -236,9 +236,9 @@
 		getAwaitingPaymentOrder,
 		getAwaitingShipmentOrder, getCancelledTOrder,
 		getCompletedOrder,
-		getShippedOrder, productDetail
+		getShippedOrder, productDetail,pay
 	} from '../../api/bvo';
-	import { loginWallet } from '../../api/wallet';
+	import { loginWallet, getAccountBalance, getIdByName } from '../../api/wallet';
 
 export default {
   name: 'Tab',
@@ -369,31 +369,106 @@ export default {
     },
     showCreatedTimes() {
       this.createdTimes = this.createdTimes + 1
-    },
-    loginwallet(i){
-			this.wallet = true,
-			// this.orderindex = i;
+	},
+	paynow(i) {
+		const w_token = sessionStorage.getItem('w-Authorization');
+		
+		if(!w_token){
+			this.wallet = true;
+		}else{
+			const fund = localStorage.getItem('fund');
 			this.totalpay = this.AwaitingPaymentTableData[i].total;
-		},
-		toPay(formName) {
-         this.$refs[formName].validate((valid) => {
-         	if (valid) {
+			const saoid = this.AwaitingPaymentTableData[i].saoId;
+			if (fund < this.totalpay){
+				this.$alert('Insufficient balance!');
+			}else{
+				this.$confirm('Are you sure to pay '+this.totalpay+'?', {
+        		}).then(() => {
+					const paylist = {
+						"saoid":saoid,
+						"amount":this.totalpay
+					}
+					//console.log(paylist);
+          			pay(paylist).then(res => {
+						//console.log("?????")
+						//console.log(res.code);
+						if (res.code == '0') {
+							this.$message.success('Payment successful!');
+							this.getOrder();
+				
+						} else {
+							this.$message.error("System error, payment fail");
+						}
+				})
+        		})
+			}
+			//this.$message.alert('Are you sure to pay '+amount+'?');
+			
+		}
+	},
+	walletlogin(formname){
+		this.$refs[formname].validate((valid) => {
+			if (valid) {
 				loginWallet(this.walletInfo).then(res => {
 					if (res.code === 200) {
+						// console.log("========");
+						// console.log(res);
 						this.$message.success('Login successful!');
-						localStorage.setItem('accountName', res.data.account_name);
-						this.$router.push('/bvo-interface' + res.data.buyer_id);
+						// localStorage.setItem('accountName', res.data.account_name);
+						// getIdByName(localStorage.getItem('accountName')).then(res=>
+						// 	{
+						// 		localStorage.setItem(res);
+						// 	}
+						// )
+						// getAccountBalance(localStorage.getItem('buyerid')).then(res=>
+						// 	{
+						// 		localStorage.setItem('fund',res.data);
+						// 	}
+						// )
+						localStorage.setItem("buyerid",res.data.buyer_id);		
+						localStorage.setItem("fund",res.data.available_money);							
+						sessionStorage.setItem('w-Authorization',res.token);
+						this.wallet = false;
+						//this.pay = true;
+						//this.$router.push('/bvo-interface' + res.data.buyer_id);
 					} else {
 						this.$message.error('Login failed, username or password is wrong, please log in again!')
 					}
 				})
-        } else {
-          console.log('error submit!!');
-          alert('error submit!!');
-          return false;
-        }
-      });
-		},
+			} else {
+				console.log('error submit!!');
+				alert('error submit!!');
+				return false;
+			}
+		});
+	},
+    // loginwallet(i){
+	// 		this.wallet = true,
+	// 		// this.orderindex = i;
+	// 		this.totalpay = this.AwaitingPaymentTableData[i].total;
+	// 	},
+	// 	toPay(formName) {
+	// 		this.$refs[formName].validate((valid) => {
+	// 			if (valid) {
+	// 				loginWallet(this.walletInfo).then(res => {
+	// 					if (res.code === 200) {
+	// 						this.$message.success('Login successful!');
+	// 						localStorage.setItem('accountName', res.data.account_name);
+	// 						localStorage.setItem('buyerid', res.data.buyer_id);
+	// 						sessionStorage.setItem('w-Authorization',res.token);
+							
+	// 						//this.$router.push('/bvo-interface' + res.data.buyer_id);
+	// 					} else {
+	// 						this.$message.error('Login failed, username or password is wrong, please log in again!')
+	// 					}
+	// 				})
+	// 			} else {
+	// 				console.log('error submit!!');
+	// 				alert('error submit!!');
+	// 				return false;
+	// 			}
+	// 		});
+	// 	},
 		finalPay(){
 			this.pay = false;
 		}

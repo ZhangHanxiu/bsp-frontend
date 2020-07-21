@@ -3,7 +3,7 @@ import request from '../utils/request'
 
 export const getBvoInfo = query => {
     return request({
-        url: '/bvo/info/1',
+        url: '/bvo/info/'+localStorage.getItem('dsrId'),
         method: 'get',
         params: query
     });
@@ -11,7 +11,7 @@ export const getBvoInfo = query => {
 
 export const getStoreInfo = query => {
     return request({
-        url: '/bvo/store/1',
+        url: '/bvo/store/'+localStorage.getItem('dsrId'),
         method: 'get',
         params: query
     });
@@ -19,7 +19,7 @@ export const getStoreInfo = query => {
 
 export const editMyInfo = data => {
     return request({
-        url: '/bvo/updateInfo/1',
+        url: '/bvo/updateInfo/'+localStorage.getItem('dsrId'),
         method: 'put',
         contentType:"application/json;charset=utf-8",
         // data:JSON.stringify(query),
@@ -129,6 +129,13 @@ export const getCompletedOrder = query => {
 export const getCancelledTOrder = query => {
     return request({
         url: '/bvo/getAllOrderByUserIdAndOrderSts/'+localStorage.getItem('userId')+'/5',
+        method: 'get',
+    });
+};
+
+export const pay = paylist => {
+    return request({
+        url: '/bvo/pay/'+paylist.saoid+'/'+localStorage.getItem('buyerid')+'/'+paylist.amount,
         method: 'get',
     });
 };

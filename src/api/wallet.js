@@ -22,7 +22,7 @@ export const registerWallet = data => {
  * @returns {*}
  */
 export const loginWallet = data => {
-    console.log(data)
+    //console.log(data)
     return request({
         url: '/wallet/login',
         method: 'post',
@@ -58,6 +58,14 @@ export const withdrawalSubsidiary = id => {
     });
 };
 
+export const getIdByName = name => {
+    return request({
+        url: '/wallet/getIdByName',
+        method: 'get',
+        params:{name:name}
+    });
+};
+
 export const saveAccount = query => {
     return request({
         url: '/wallet/deposit',
@@ -80,3 +88,5 @@ export const Audit = query => {
         params:query
     });
 };
+
+

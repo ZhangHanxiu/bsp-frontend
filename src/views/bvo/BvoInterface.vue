@@ -4,7 +4,7 @@
     <el-header>
       <div class="page-header position-relative">
         <h1 style="color: #2679b5;font-size:30px;font-weight:normal;">
-          MVO
+          BVO
           <small style="font-size:16px;">
             <i class="el-icon-d-arrow-right"></i> Account information
           </small>
@@ -168,18 +168,18 @@ export default {
     saveMoney(){
       this.dialogAddVisible = true;
     },
-    withDrawAccount(){
-      this.account.buyer_id = this.$route.params.buyer_id;
-      withDrawAccount(this.account).then(res =>{
-        if (res.code === 200){
-          this.getAccountBalance(this.account.buyer_id);
-          this.dialogAddVisible = false;
-          this.$message.success('Withdraw successfully');
-        }else {
-          this.$message.error('Withdrawal failed');
-        }
-      })
-    },
+    // withDrawAccount(){
+    //   this.account.buyer_id = this.$route.params.buyer_id;
+    //   withDrawAccount(this.account).then(res =>{
+    //     if (res.code === 200){
+    //       this.getAccountBalance(this.account.buyer_id);
+    //       this.dialogAddVisible = false;
+    //       this.$message.success('Withdraw successfully');
+    //     }else {
+    //       this.$message.error('Withdrawal failed');
+    //     }
+    //   })
+    // },
 
     //存钱
     saveAccount(){
