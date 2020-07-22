@@ -10,7 +10,7 @@
         </div>
         <div id="loginBox">
             <h4 style="text-align: center;margin-bottom: 20px;margin-top: -10px;font-size: 26px;color: #ffffff">E-commerce Borrow-Sell Platform</h4>
-            <el-form ref="form":model="loginForm" :rules="loginRules" class="form">
+            <el-form ref="form" :model="loginForm" :rules="loginRules" class="form">
                 <el-row>
                     <div style="display: inline-flex;margin-left: 5%;height: 30pt">
                         <el-form-item prop="username">
@@ -178,7 +178,7 @@
             },
             //提交登录
             submitForm() {
-                if(this.loginForm.seccode === this.checkCode) {
+                if(this.loginForm.seccode !== this.checkCode) {
                     this.$message({
                         message: "Identify code incorrect",
                         type: "error"
