@@ -27,8 +27,8 @@
     "video.js": "latest"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.9.0",
-    "@vue/cli-service": "^3.9.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "dropzone": "^5.7.1",
     "file-saver": "^2.0.2",
     "less-loader": "^6.2.0",
